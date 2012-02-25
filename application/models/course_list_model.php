@@ -17,7 +17,7 @@ class Course_list_model extends CI_Model
 	 * containing an array corresponding row objects from 
 	 * the time_and_location table
 	**/
-	public function format_class_list($result)
+	public function format_course_list($result)
 	{
 		$return = array();
 		if($result->num_rows() > 0)
@@ -33,6 +33,7 @@ class Course_list_model extends CI_Model
 				$time_and_location->room = $row->room;
 				if($current_call != $row->call_number)
 				{
+					$current_call = $row->call_number;
 					unset($row->day,$row->start_time,$row->end_time,
 							$row->room);
 					$i++;

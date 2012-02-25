@@ -15,7 +15,7 @@ class Unit_Testing extends CI_Controller
 	{
 		$this->load->model('search_model');
 		
-		$this->search_model->set_semester('fall')->
+		$result = $this->search_model->set_semester('fall')->
 			set_year('2012')->
 			//set_subjects('TEST')->
 			//set_days(array('M','T','W'))->
@@ -24,6 +24,7 @@ class Unit_Testing extends CI_Controller
 			set_honors(TRUE)->
 			//set_tba(FALSE)->
 			search();
+		die(var_dump($result));
 	}
 	public function test_conflict_model()
 	{
