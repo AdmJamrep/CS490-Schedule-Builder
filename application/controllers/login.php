@@ -1,4 +1,7 @@
 <?PHP
+/**
+ * DEPRECATED
+**/
 class Login extends CI_Controller
 {
 	public function __construct()
@@ -20,5 +23,12 @@ class Login extends CI_Controller
 	{
 		$data['data'] = $this->db->get('Alpha');
 		$this->load->view('all_logins',$data);
+	}
+	public function newtest()
+	{
+		preg_match_all("|([a-z]+)>([a-z]+)>([a-z]+)>|U",
+			"cs>nicholson>kupf> is>jones>gitc>",
+			$out, PREG_PATTERN_ORDER);
+		echo var_dump($out);
 	}
 }
