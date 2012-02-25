@@ -190,22 +190,30 @@ class Search_model extends CI_Model
 	}
 	/**
 	 * Performs the search
-	 * @return CI_DB_Result
+	 * @return array of row objects from the course_sections 
+	 * and courses tables, with an added field (called 
+	 * time_and_location) containing an array corresponding 
+	 * row objects from the time_and_location table
 	**/
 	public function search()
 	{
 		assert(!empty($this->semester) && !empty($this->year));
 		assert(empty($this->start_time) || !empty($this->end_time));
 		
+		$this->load->model('course_list_model');
+		
 		$query_params = array();
 		
 		$query_string = '
-				SELECT t1.*,c.*
+				SELECT t1.*,c.*,co.*
 				FROM time_and_location t1
 				JOIN class_sections c
-					ON c.call_number = t1.call_number';
+					ON c.call_number = t1.call_number
+				JOIN courses co
+					ON co.abbreviation = c.abbreviation
+					AND co.course_number = c.course_number ';
 		
-		$day_questions = $this->print_question_marks(
+		$day_questions = $this->course_list_model->print_question_marks(
 				count($this->days));
 		
 		if(!empty($this->days) || !empty($this->start_time))
@@ -280,8 +288,8 @@ class Search_model extends CI_Model
 		if(!empty($this->subjects))
 		{
 			$query_string .= '
-					AND abbreviation IN ('.$this->print_question_marks(
-							count($this->subjects)).') ';
+					AND abbreviation IN ('.$this->course_list_model->
+							print_question_marks(count($this->subjects)).') ';
 			$query_params = array_merge($query_params, $this->subjects);
 		}
 		if($this->rutgers === TRUE)
@@ -331,24 +339,11 @@ class Search_model extends CI_Model
 			$query_params[] = $this->professor;
 		}
 		$result = $this->db->query($query_string,$query_params);
-		die($this->db->last_query().'<br />'.var_export($result->result()));
+		$return = $this->course_list_model->format_course_list($result);
+		
+		return $return;
 	}
-	/**
-	 * Helper function, prints out a certain number of comma-separated
-	 * question marks -- used for writing a SQL IN() list using
-	 * CodeIgniter's query bindings feature
-	 * @param int count
-	 * @return string
-	**/
-	public function print_question_marks($count)
-	{
-		if($count == 0)
-			return '';
-		$result = '?';
-		for($i = 1; $i < $count; $i++)
-			$result .= ',?';
-		return $result;
-	}
+
 	/**
 	 * Off the shelf function to validate a time string
 	 * (from http://snipplr.com/view/23007/validate-time/)
