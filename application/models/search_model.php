@@ -14,6 +14,7 @@ class Search_model extends CI_Model
 	private $honors = '';
 	private $graduate = '';
 	private $tba = '';
+	private $online = '';
 	private $professor = '';
 	private $semester = '';
 	private $year = '';
@@ -148,6 +149,20 @@ class Search_model extends CI_Model
 		assert(is_bool($tba));
 		
 		$this->tba = $tba;
+		return $this;
+	}
+	/**
+	 * sets the online course filtering value (see documentation
+	 * of search_model->set_rutgers for more information on
+	 * filtering values)
+	 * @param boolean online
+	 * @return Search_model
+	**/
+	public function set_online($online)
+	{
+		assert(is_bool($online));
+		
+		$this->online = $online;
 		return $this;
 	}
 	/**
@@ -312,6 +327,16 @@ class Search_model extends CI_Model
 			$query_string .= '
 					AND section_number NOT LIKE "H%" ';
 		}
+		if($this->online === TRUE)
+		{
+			$query_string .= '
+					AND section_number LIKE "4%" ';
+		}
+		else if($this->online === FALSE)
+		{
+			$query_string .= '
+					AND section_number NOT LIKE "4%" ';
+		}
 		if($this->graduate === TRUE)
 		{
 			$query_string .= '
@@ -337,6 +362,14 @@ class Search_model extends CI_Model
 			$query_string .= '
 					AND instructor = ? ';
 			$query_params[] = $this->professor;
+		}
+		if(!empty($this->keyword))
+		{
+			$query_string .= '
+					AND (name LIKE CONCAT("%",?,"%") OR 
+					description LIKE CONCAT("%",?,"%")) ';
+			$query_params[] = $this->keyword;
+			$query_params[] = $this->keyword;
 		}
 		$result = $this->db->query($query_string,$query_params);
 		$return = $this->course_list_model->format_course_list($result);
