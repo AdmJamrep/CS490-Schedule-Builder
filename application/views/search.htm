@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>Search classes v1.0</title>
+</head>
+
+<body>
+<table>
+<tr>
+<td>
+Specify criteria for classes
+<br />
+<br />
+
+<!-- There should be an autocompleter for this textfield -->
+<form name = "form_prof">
+Professor: <input type = "text" name = "prof" />
+</form>
+
+<!-- Autocomplete for this too -->
+<form name = "form_subj">
+Subject: <input type = "text" name = "subj" />
+</select>
+</form>
+
+<!-- If user selects an invalid time range (like 1pm to 10am), here's what happens:
+
+	1. Both drop down lists will be assigned a value when a selection is made.
+	2. If the first list's value is GREATER than the second list's value, then
+	   it is an invalid selection and nothing will happen.
+	3. If both values are equal, then it will just return all classes starting at
+	   that time.
+	4. Otherwise, it will return all classes STARTING from [first list's value] and [second list's value].
+-->
+Specify a time range:
+
+<form name = "form3">
+Within: <select name = "start_time">
+<option value = "1">8:30am</option>
+<option value = "2">10:00am</option>
+<option value = "3">11:30am</option>
+<option value = "4">1:00pm</option>
+<option value = "5">2:30pm</option>
+<option value = "6">4:00pm</option>
+<option value = "7">6:00pm</option>
+</select>
+to: <select name = "end_time">
+<option value = "1">8:30am</option>
+<option value = "2">10:00am</option>
+<option value = "3">11:30am</option>
+<option value = "4">1:00pm</option>
+<option value = "5">2:30pm</option>
+<option value = "6">4:00pm</option>
+<option value = "7">6:00pm</option>
+</select>
+</form>
+</td>
+
+<td>
+Filters:
+<table>
+<tr>
+<td>
+<form name = "day_filters">
+<input type = "checkbox" name = "filter" value = "mon" />Monday<br />
+<input type = "checkbox" name = "filter" value = "tue" />Tuesday<br />
+<input type = "checkbox" name = "filter" value = "wed" />Wednesday<br />
+<input type = "checkbox" name = "filter" value = "thu" />Thursday<br />
+<input type = "checkbox" name = "filter" value = "fri" />Friday<br />
+<input type = "checkbox" name = "filter" value = "sat" />Saturday<br />
+</form>
+</td>
+<td>
+<form name = "filters">
+<input type = "checkbox" name = "filter" value = "undergrad" />Undergraduate class<br />
+<input type = "checkbox" name = "filter" value = "grad" />Graduate class<br />
+<input type = "checkbox" name = "filter" value = "rut" />Rutgers class<br />
+<input type = "checkbox" name = "filter" value = "online" />Distance Learning class<br />
+<input type = "checkbox" name = "filter" value = "honors" />Honors class<br />
+</form>
+<input type = "submit" value = "Search" />
+</td>
+</tr>
+</table>
+
+
+</td>
+</tr>
+</table>
+
+
+</body>
+
+
+</html>
