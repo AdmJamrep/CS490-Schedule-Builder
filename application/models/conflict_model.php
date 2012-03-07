@@ -22,9 +22,9 @@ class Conflict_model extends CI_Model
 			return FALSE;
 		if($first_start == $second_start && $first_end == $second_end)
 			return TRUE;
-		else if($first_start > $second_start && $first_start < $second_end)
+		else if($first_start >= $second_start && $first_start <= $second_end)
 			return TRUE;
-		else if ($second_start > $first_start && $second_start < $first_end)
+		else if ($second_start >= $first_start && $second_start <= $first_end)
 			return TRUE;
 		return FALSE;
 	}
