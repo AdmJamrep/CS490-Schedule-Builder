@@ -25,7 +25,7 @@ class Search extends CI_Controller
 			if($profs->num_rows() > 0)
 			{
 				
-				echo '<ui>';
+				echo '<ul>';
 				foreach($profs->result() as $row)
 				{
 					echo '<li>'.$row->instructor.'</li>';
@@ -47,7 +47,7 @@ class Search extends CI_Controller
 			if($subjs->num_rows() > 0)
 			{
 				
-				echo '<ui>';
+				echo '<ul>';
 				foreach($subjs->result() as $row)
 				{
 					echo '<li>'.$row->abbreviation.'</li>';

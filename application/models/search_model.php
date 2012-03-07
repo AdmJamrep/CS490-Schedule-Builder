@@ -303,49 +303,49 @@ class Search_model extends CI_Model
 		if(!empty($this->subjects))
 		{
 			$query_string .= '
-					AND abbreviation IN ('.$this->course_list_model->
+					AND c.abbreviation IN ('.$this->course_list_model->
 							print_question_marks(count($this->subjects)).') ';
 			$query_params = array_merge($query_params, $this->subjects);
 		}
 		if($this->rutgers === TRUE)
 		{
 			$query_string .= '
-					AND abbreviation LIKE "R%" ';
+					AND c.abbreviation LIKE "R%" ';
 		}
 		else if($this->rutgers === FALSE)
 		{
 			$query_string .= '
-					AND abbreviation NOT LIKE "R%" ';
+					AND c.abbreviation NOT LIKE "R%" ';
 		}
 		if($this->honors === TRUE)
 		{
 			$query_string .= '
-					AND section_number LIKE "H%" ';
+					AND c.section_number LIKE "H%" ';
 		}
 		else if($this->honors === FALSE)
 		{
 			$query_string .= '
-					AND section_number NOT LIKE "H%" ';
+					AND c.section_number NOT LIKE "H%" ';
 		}
 		if($this->online === TRUE)
 		{
 			$query_string .= '
-					AND section_number LIKE "4%" ';
+					AND c.section_number LIKE "4%" ';
 		}
 		else if($this->online === FALSE)
 		{
 			$query_string .= '
-					AND section_number NOT LIKE "4%" ';
+					AND c.section_number NOT LIKE "4%" ';
 		}
 		if($this->graduate === TRUE)
 		{
 			$query_string .= '
-					AND SUBSTR(course_number,1,1) IN ("5","6","7") ';
+					AND SUBSTR(c.course_number,1,1) IN ("5","6","7") ';
 		}
 		else if($this->graduate === FALSE)
 		{
 			$query_string .= '
-					AND SUBSTR(course_number,1,1) NOT IN ("5","6","7") ';
+					AND SUBSTR(c.course_number,1,1) NOT IN ("5","6","7") ';
 		}
 		if($this->tba === TRUE)
 		{

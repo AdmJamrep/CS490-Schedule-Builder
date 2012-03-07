@@ -6,10 +6,36 @@ class Unit_Testing extends CI_Controller
 		parent::__construct();
 		$this->load->library('unit_test');
 	}
-	
-	public function test()
+	public function test_search()
 	{
-		echo 'good';
+		$this->load->model('schedule_model');
+		$this->schedule_model->create_schedule();
+		$this->schedule_model->add_class(7);
+		$current = $this->schedule_model->get_schedule();
+		
+		
+		$this->load->model('search_model');
+		$result = $this->search_model->set_semester('fall')->
+			set_year('2012')->
+			set_subjects('TEST')->
+			set_start_time('08:30')->
+			set_end_time('11:30')->
+			search();
+		
+		$in_conflict = $this->conflict_model->
+				compare_for_conflicts($result, $current);
+		
+		die(var_dump($result));
+	}
+	public function test_schedule_model()
+	{
+		$this->load->model('schedule_model');
+		$this->schedule_model->create_schedule();
+		$this->schedule_model->add_class(7);
+		$this->schedule_model->get_schedule();
+		//this should result in a schedule conflict
+		die(var_dump($this->schedule_model->add_class(8)));
+		
 	}
 	public function test_search_model()
 	{
@@ -17,12 +43,14 @@ class Unit_Testing extends CI_Controller
 		
 		$result = $this->search_model->set_semester('fall')->
 			set_year('2012')->
-			//set_subjects('TEST')->
+			set_subjects('TEST')->
+			set_days(array('M'))->
 			//set_days(array('M','T','W'))->
-			//set_start_time('10:00')->
-			//set_end_time('22:00')->
-			set_honors(TRUE)->
-			//set_tba(FALSE)->
+			set_start_time('10:00')->
+			set_end_time('22:00')->
+			//set_professor('Al Pachino')->
+			//set_honors(TRUE)->
+			//set_online(TRUE)->
 			search();
 		die(var_dump($result));
 	}

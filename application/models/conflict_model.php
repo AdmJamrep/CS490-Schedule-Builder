@@ -5,49 +5,7 @@ class Conflict_model extends CI_Model
 	{
 		parent::__construct();
 	}
-	/**
-	 * Makes a DateTime object from the supplied
-	 * date and time
-	 * @param string date
-	 * @param string time
-	 * @return mixed (FALSE if the time is invalid
-	 * [such as a TBA class], a DateTime object otherwise)
-	**/
-	public function make_time($date,$time)
-	{
-		$time_string = '';
-		switch ($date)
-		{
-			/**
-			 * NOTE: the only significance of these
-			 * dates is that they are valid and have
-			 * the correct day-of-week
-			**/
-			case 'M':
-				$time_string = '2012-02-20';
-				break;
-			case 'T':
-				$time_string = '2012-02-21';
-				break;
-			case 'W':
-				$time_string = '2012-02-22';
-				break;
-			case 'R':
-				$time_string = '2012-02-23';
-				break;
-			case 'F':
-				$time_string = '2012-02-24';
-				break;
-			case 'S':
-				$time_string = '2012-02-25';
-				break;
-			default:
-				return FALSE;
-				break;
-		}
-		$time_string .= ' '.$time;
-		return new DateTime($time_string);
-	}
+	
 	/**
 	 * Determines if two time-spans (represented by their respective
 	 * start and end times) overlap
@@ -70,4 +28,78 @@ class Conflict_model extends CI_Model
 			return TRUE;
 		return FALSE;
 	}
+	/**
+	 * compares two lists of courses (generally, one
+	 * or more classes the user is looking at to their current
+	 * schedule) to determine if there are time conflicts. If a 
+	 * conflict is found, information on it will be attached to 
+	 * the rows in the first course list supplied.
+	 * @param CI_DB_Result first_course_list
+	 * @param CI_DB_Result second_course_list
+	 * @param boolean break_on_conflict controls whether
+	 * this process will stop on the first conflict found 
+	 * (optional, default FALSE)
+	 * @return boolean TRUE if no conflicts are found, NULL if 
+	 * this course is a duplicate, boolean FALSE if another error
+	 * occurs
+	**/
+	public function compare_for_conflicts($first_course_list, $second_course_list, 
+			$break_on_conflict=FALSE)
+	{
+		$result = TRUE;
+		if(empty($second_course_list))
+			return $result;
+		
+		foreach($first_course_list->times as $session1)
+		{
+			foreach($second_course_list->times as $session2)
+			{
+				/**
+				 * these conditions that indicate that no conflict can
+				 * exist between two sessions of a given course section:
+				 * the sessions are on different days
+				 * the sessions are on the same day, but both TBA
+				**/
+				if($session1->day != $session2->day || 
+						$session1->start_datetime === FALSE)
+				{
+					continue;
+				}
+				
+				$in_conflict = $this->has_conflict($session1->start_datetime,
+						$session1->end_datetime,$session2->start_datetime,
+						$session2->end_datetime);
+				
+				if($in_conflict)
+				{
+					$conflicting = $second_course_list->
+							classes[$session2->call_number];
+					/**
+					 * if the courses are in conflict, attach information
+					 * about the conflicting course (both for display on
+					 * the UI and one-click conflict resolution) to the 
+					 * first course list
+					**/
+					$conflicting_class = $second_course_list->
+							classes[$session2->call_number];
+					$conflict = null;
+					$conflict->name = $conflicting_class->name;
+					$conflict->day = $session2->day;
+					$conflict->start_time = $session2->start_time;
+					$conflict->end_time = $session2->end_time;
+					
+					$first_course_list->classes[$session1->call_number]->
+							conflicts[$session2->call_number][] = $conflict;
+					
+					if($break_on_conflict !== FALSE)
+					{
+						return FALSE;
+					}
+					$result = FALSE;
+				}
+			}
+		}
+		return $result;
+	}
+	
 }
