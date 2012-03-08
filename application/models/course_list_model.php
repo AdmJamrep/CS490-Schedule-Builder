@@ -79,13 +79,13 @@ class Course_list_model extends CI_Model
 		}
 		//next we compare based on time of day, deliberately 
 		//ignoring which day it's on
-		else if($time_and_location1->start_date <
-			$time_and_location2->start_date)
+		else if($time_and_location1->start_time <
+			$time_and_location2->start_time)
 		{
 			return -1;
 		}
-		else if($time_and_location1->start_date > 
-			$time_and_location2->start_date)
+		else if($time_and_location1->start_time > 
+			$time_and_location2->start_time)
 		{
 			return 1;
 		}
