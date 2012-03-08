@@ -84,9 +84,8 @@ class Conflict_model extends CI_Model
 							classes[$session2->call_number];
 					$conflict = null;
 					$conflict->name = $conflicting_class->name;
-					$conflict->day = $session2->day;
-					$conflict->start_time = $session2->start_time;
-					$conflict->end_time = $session2->end_time;
+					$conflict->start_datetime = $session2->start_datetime;
+					$conflict->end_datetime = $session2->end_datetime;
 					
 					$first_course_list->classes[$session1->call_number]->
 							conflicts[$session2->call_number][] = $conflict;

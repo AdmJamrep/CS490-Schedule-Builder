@@ -5,6 +5,9 @@ class Search extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->library('form_validation');
+		$this->output->enable_profiler(TRUE);
+		$this->load->model('schedule_model');
+		$this->schedule_model->create_schedule_if_not_exists();
 	}
 	public function index()
 	{
@@ -12,9 +15,9 @@ class Search extends CI_Controller
 	}
 	public function do_search()
 	{
-		//$this->form_validation->set_rules('');
 		
 		$this->load->model('search_model');
+		$this->load->model('conflict_model');
 		
 		$start_time = $this->input->post('start_time');
 		$end_time = $this->input->post('end_time');
@@ -62,9 +65,32 @@ class Search extends CI_Controller
 		$result = $this->search_model->set_semester('fall')->
 			set_year('2012')->
 			search();
-			
-		$this->load->view('search_results',$result);
 		
+		$schedule = $this->schedule_model->get_schedule();
+		
+		$this->conflict_model->compare_for_conflicts($result,$schedule);
+		
+		$data = null;
+		$data->result = $result;
+		$data->schedule = $schedule;
+		$this->load->view('search_results',$data);
+		
+	}
+	public function add_course()
+	{
+		$remove = $this->input->post('conflicting_call');
+		if(!empty($remove))
+		{
+			$this->schedule_model->remove_classes($remove);
+		}
+		$call_number = $this->input->post('call_number');
+		
+		$result = $this->schedule_model->add_class($call_number);
+		
+		if($result !== FALSE)
+			echo 'success';
+		else
+			show_error('Unable to add course');
 	}
 	public function professor_autocomplete()
 	{
@@ -75,7 +101,7 @@ class Search extends CI_Controller
 			$profs = $this->db->like('instructor',$this->
 					input->post('prof'))->
 					group_by('instructor')->
-					get('course_sections');
+					get('class_sections');
 			
 			if($profs->num_rows() > 0)
 			{

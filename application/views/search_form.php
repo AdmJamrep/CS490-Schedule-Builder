@@ -2,13 +2,50 @@
 <head>
 <title>Search classes v1.0</title>
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototype.js'))?>"></script>
+<script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/scriptaculous.js'))?>"></script>
 <script type="text/javascript">
 function submit_form()
 {
 	url = '<?PHP echo site_url('search/do_search')?>';
 	new Ajax.Updater('full_search_results',url,{postBody:$('search_form').serialize()});
 }
+function add_course(myform)
+{
+	console.debug(myform);
+	url = '<?PHP echo site_url('search/add_course')?>';
+	new Ajax.Request(url,{postBody:myform.serialize(),onSuccess:submit_form});
+}
 </script>
+<style>
+body, td
+{
+	font-family: Arial,Halvetica,Sans-Serif;
+	font-size:12px;
+}
+/*based off http://madrobby.github.com/scriptaculous/ajax-autocompleter/ */
+div.autocomplete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  border:1px solid #888;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul li.selected { background-color: #0cf}
+div.autocomplete ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  height:32px;
+  cursor:pointer;
+}
+</style>
 </head>
 
 <body>
@@ -21,20 +58,20 @@ Specify criteria for classes
 <br />
 
 <!-- There should be an autocompleter for this textfield -->
-Professor: <input type = "text" name = "prof" /><br />
+Professor: <input type = "text" id = "prof" name = "prof" /><br />
+<div id = "prof_auto" class="autocomplete"></div>
+<script type="text/javascript">
+new Ajax.Autocompleter('prof','prof_auto','<?PHP echo site_url('search/professor_autocomplete')?>');
+</script>
+
 
 <!-- Autocomplete for this too -->
-Subject: <input type = "text" name = "subj" /><br />
+Subject: <input type = "text" id = "subj" name = "subj" /><br />
+<div id = "subj_auto" class="autocomplete"></div>
+<script type="text/javascript">
+new Ajax.Autocompleter('subj','subj_auto','<?PHP echo site_url('search/subject_autocomplete')?>');
+</script>
 
-<!-- If user selects an invalid time range (like 1pm to 10am), here's what happens:
-
-	1. Both drop down lists will be assigned a value when a selection is made.
-	2. If the first list's value is GREATER than the second list's value, then
-	   it is an invalid selection and nothing will happen.
-	3. If both values are equal, then it will just return all classes starting at
-	   that time.
-	4. Otherwise, it will return all classes STARTING from [first list's value] and [second list's value].
--->
 Specify a time range:
 
 Within: <select name = "start_time">
@@ -72,7 +109,6 @@ Filters:
 <input type = "checkbox" name = "date[]" value = "S" />Saturday<br />
 </td>
 <td>
-<input type = "checkbox" name = "undergrad" value = "undergrad" />Undergraduate class<br />
 <input type = "checkbox" name = "grad" value = "grad" />Graduate class<br />
 <input type = "checkbox" name = "rutgers" value = "rut" />Rutgers class<br />
 <input type = "checkbox" name = "online" value = "online" />Distance Learning class<br />

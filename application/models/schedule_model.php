@@ -49,6 +49,13 @@ class Schedule_model extends CI_Model
 	{
 		return $this->courses;
 	}
+	public function create_schedule_if_not_exists()
+	{
+		if(empty($this->schedule_id))
+		{
+			$this->create_schedule();
+		}
+	}
 	/**
 	 * create a new schedule in the database and make that one the
 	 * current schedule
@@ -104,6 +111,8 @@ class Schedule_model extends CI_Model
 				$insert->call_number = $call_number;
 				$this->db->insert('saved_schedule_classes',$insert);
 				
+				$this->schedule_model->get_schedule();
+				
 				return TRUE;
 			}
 		}
@@ -124,6 +133,8 @@ class Schedule_model extends CI_Model
 		$this->db->where('num_identifier',$this->schedule_id)->
 			where_in('call_number',$call_numbers)->
 			delete('saved_schedule_classes');
+		
+		$this->schedule_model->get_schedule();
 	}
 	/**
 	 * mark a schedule to be permanently saved
