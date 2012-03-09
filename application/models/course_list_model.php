@@ -54,6 +54,100 @@ class Course_list_model extends CI_Model
 		}
 		return $return;
 	}
+	public function make_grid($course_list)
+	{
+		$time_blocks = array(
+			array('08:30:00','09:10:00'),
+			array('09:15:00','09:55:00'),
+			array('10:00:00','10:40:00'),
+			array('10:45:00','11:25:00'),
+			array('11:30:00','12:10:00'),
+			array('12:15:00','12:55:00'),
+			array('13:00:00','13:40:00'),
+			array('13:45:00','14:25:00'),
+			array('14:30:00','15:10:00'),
+			array('15:15:00','15:55:00'),
+			array('16:00:00','16:40:00'),
+			array('16:45:00','17:25:00'),
+			array('17:45:00','17:55:00'),
+			array('18:00:00','18:40:00'),
+			array('18:45:00','19:25:00'),
+			array('19:30:00','20:10:00'),
+			array('20:15:00','20:55:00'),
+			array('21:05:00','21:35:00')
+		);
+		$grid = array();
+		foreach($time_blocks as $times)
+		{
+			$row = null;
+			$row->start_time = $times[0];
+			$row->end_time = $times[1];
+			$row->start_datetime = $this->make_time('M',$times[0]);
+			$row->end_datetime = $this->make_time('M',$times[1]);
+			$row->blocks = array();
+			for($i = 0; $i < 6; $i++)
+			{
+				$row->blocks[] = NULL;
+			}
+			$grid[] = $row;
+		}
+		
+		$days = 'MTWRFS';
+		
+		$min_time = $course_list->times[0]->start_time;
+		$max_time = $course_list->times[count($course_list->times)-1]->end_time;
+		
+		$current_class = 0;
+		foreach($grid as $rownum => $row)
+		{
+			$row->row_occupied = $this->in_block($row->start_time,$min_time,$max_time) ||
+				$this->in_block($row->end_time,$min_time,$max_time);
+			foreach($row->blocks as $day_offset => $block)
+			{
+				if($block === FALSE)
+				{
+					$row->row_occupied = TRUE;
+					continue;
+				}
+				else if(isset($course_list->times[$current_class]) &&
+						$this->in_block($course_list->times[$current_class]->start_time,
+								$row->start_time,$row->end_time) && 
+						strpos($days,$course_list->times[$current_class]->day) === $day_offset
+				)
+				{
+					$i = $rownum + 1;
+					while($i < count($grid) && 
+							(
+								$grid[$i]->end_time <= $course_list->times[$current_class]->end_time || 
+								(
+										$course_list->times[$current_class]->end_time > $grid[$i]->start_time && 
+										$course_list->times[$current_class]->end_time <= $grid[$i]->end_time  
+								)
+							)
+					)
+					{
+						$grid[$i]->blocks[$day_offset] = FALSE;
+						$i++;
+					}
+					
+					$block_object = null;
+					$block_object->call_number = $course_list->times[$current_class]->call_number; 
+					$block_object->rowspan = $i - $rownum;
+					$block_object->time_index = $current_class;
+					$row->blocks[$day_offset] = $block_object;
+					
+					$current_class++;
+					$row->row_occupied = TRUE;
+				}
+			}
+		}
+		
+		return $grid;
+	}
+	private function in_block($test_time,$start_time,$end_time)
+	{
+		return $test_time >= $start_time && $test_time <= $end_time;
+	}
 	/**
 	 * comparison function for sorting dates and times by
 	 * start_time, day ASC (to use SQL terms)

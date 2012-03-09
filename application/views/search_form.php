@@ -11,9 +11,18 @@ function submit_form()
 }
 function add_course(myform)
 {
-	console.debug(myform);
 	url = '<?PHP echo site_url('search/add_course')?>';
 	new Ajax.Request(url,{postBody:myform.serialize(),onSuccess:submit_form});
+}
+function remove_course(course_id)
+{
+	url = '<?PHP echo site_url('search/remove_course')?>';
+	new Ajax.Request(url,{postBody:'call_number='+course_id,onSuccess:submit_form});
+}
+function show_schedule_grid()
+{
+	url = '<?PHP echo site_url('search/show_schedule_grid')?>';
+	new Ajax.Updater('full_search_results',url);
 }
 </script>
 <style>

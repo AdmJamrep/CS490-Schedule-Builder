@@ -25,7 +25,7 @@
 	<td><?PHP echo $class->status?> (<?PHP echo $class->current_size?>/<?PHP echo $class->max_size?>)</td>
 	<td><?PHP echo $class->instructor?></td>
 	<td><?PHP echo $class->credits?></td>
-	<td><?PHP echo $class->{'pre-requisites'}?></td>
+	<td><div><?PHP echo $class->{'pre-requisites'}?></div><div><?PHP echo $class->comments?></div></td>
 	<td>
 		<form method="post" id="add_form_<?PHP echo $call_number ?>" 
 				action="javascript:add_course($('add_form_<?PHP echo $call_number ?>'))">

@@ -92,6 +92,19 @@ class Search extends CI_Controller
 		else
 			show_error('Unable to add course');
 	}
+	public function remove_course()
+	{
+		$remove = $this->input->post('call_number');
+		$this->schedule_model->remove_classes($remove);
+	}
+	public function show_schedule_grid()
+	{
+		$data = null;
+		$data->schedule = $this->schedule_model->get_current_schedule();
+		$data->grid = $this->course_list_model->make_grid($data->schedule);
+		
+		$this->load->view('schedule_grid',$data);
+	}
 	public function professor_autocomplete()
 	{
 		$this->form_validation->set_rules('prof',
