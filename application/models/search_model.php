@@ -1,5 +1,6 @@
 <?PHP
 /**
+ * @author Donald Winship
  * TODO: remove debugging code (convert "assert" statements to
  * a more graceful error handler)
 **/

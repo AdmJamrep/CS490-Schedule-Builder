@@ -1,4 +1,7 @@
 <?PHP
+/**
+ * @author Donald Winship
+**/
 class Schedule_model extends CI_Model
 {
 	private $courses = array();
@@ -43,12 +46,16 @@ class Schedule_model extends CI_Model
 	/**
 	 * retrieve the contents of the schedule the user is currently
 	 * working on
-	 * @return see schedule_model->get_current_schedule
+	 * @return see schedule_model->get_schedule
 	**/
 	public function get_current_schedule()
 	{
 		return $this->courses;
 	}
+	/**
+	 * create a new schedule in the database *only*
+	 * if the user doesn't currently have one
+	**/
 	public function create_schedule_if_not_exists()
 	{
 		if(empty($this->schedule_id))

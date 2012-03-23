@@ -1,4 +1,5 @@
 <html>
+<!-- Author: Brian Corzo -->
 <head>
 <title>Search classes v1.0</title>
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototype.js'))?>"></script>

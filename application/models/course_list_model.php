@@ -77,6 +77,11 @@ class Course_list_model extends CI_Model
 			array('21:05:00','21:35:00')
 		);
 		$grid = array();
+		if(empty($course_list->times))
+		{
+			return $grid;
+		}
+		
 		foreach($time_blocks as $times)
 		{
 			$row = null;

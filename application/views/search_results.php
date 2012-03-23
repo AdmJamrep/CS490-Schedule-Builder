@@ -1,3 +1,4 @@
+<!--Author: Brian Corzo-->
 <div style="float:left; width: 200px; padding-right:10px;">
 <?PHP $this->load->view('schedule_list',$schedule);?>
 </div>

@@ -1,3 +1,4 @@
+<!--Author: Brian Corzo-->
 <?PHP if(!empty($schedule->classes)):?>
 	Your Classes: <br />
 	<?PHP foreach($schedule->classes as $s_class):?>

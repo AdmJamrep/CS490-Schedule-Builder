@@ -1,3 +1,4 @@
+<!--Author: Brian Corzo-->
 <!-- The Schedule Table -->
 <!-- Each cell should contain the class name and location -->
 <table border = "4">
