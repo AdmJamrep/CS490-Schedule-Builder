@@ -13,7 +13,6 @@
 	<form method = "post" action = "" id = "save_sched">
 	Schedule Name: <input type = "text" id = "sched_name" name = "sched_name" size ="15" /><br />
 	Email: <input type = "text" id = "email" name = "email" size = "15" /><br />
-	Confirm Email: <input type = "text" id = "email" name = "email" size = "15" /><br />
 	<input type = "submit" value = "Submit" />
 	</form>
 	</div>

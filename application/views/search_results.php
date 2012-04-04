@@ -1,15 +1,19 @@
 <!--Author: Brian Corzo-->
-<div style="float:left; width: 200px; padding-right:10px;">
+<div style="float:left; width:15%; padding-right:10px;">
 <?PHP $this->load->view('schedule_list',$schedule);?>
 </div>
-<div style="float:left; width:600px; ">
-<table cellspacing = "10">
+<div style="width:100%;">
+<table cellspacing = "1">
 
 <tr>
 	<th>NAME</th><th>DAYS/TIMES</th><th>STATUS</th><th>INSTRUCTOR</th><th>CREDITS</th><th>PREREQUISITES</th><th>ACTION</th>
 </tr>
+
+<?PHP $rowclass = 0; ?>
 <?PHP foreach($result->classes as $call_number=>$class):?>
-<tr>
+
+
+<tr class = "row<?PHP echo $rowclass ?>">
 	<td>
 		<?PHP echo $class->abbreviation?>-<?PHP echo $class->course_number?><br />
 		#<?PHP echo $class->section_number?><br />
@@ -43,8 +47,11 @@
 		<?PHP endif;?>
 		</form>
 	</td>
+<?PHP $rowclass = 1 - $rowclass; ?>
 <?PHP if(!empty($class->conflicts)):?>
+
 </tr>
+
 <tr>
 <tr style="background-color:#fcc">
 	<td colspan="7">

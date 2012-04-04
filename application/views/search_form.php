@@ -2,8 +2,14 @@
 <!-- Author: Brian Corzo -->
 <head>
 <title>Search classes v1.0</title>
+
+
+<link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/style.css'))?>" />
+<link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/prototip.css'))?>" />
+
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototype.js'))?>"></script>
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/scriptaculous.js'))?>"></script>
+<script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototip.js'))?>"></script>
 <script type="text/javascript">
 function submit_form()
 {
@@ -25,63 +31,115 @@ function show_schedule_grid()
 	url = '<?PHP echo site_url('search/show_schedule_grid')?>';
 	new Ajax.Updater('full_search_results',url);
 }
-</script>
-<style>
-body, td
+function toggle_search()
 {
-	font-family: Arial,Halvetica,Sans-Serif;
-	font-size:12px;
+	var bSearch = document.getElementById("bSearch");
+	var aSearch = document.getElementById("aSearch");
+
+	if(bSearch.style.display == "block") 
+	{
+		bSearch.style.display = "none";
+		aSearch.style.display = "block";
+		
+  	}
+	else 
+	{
+		bSearch.style.display = "block";
+		aSearch.style.display = "none";
+	}
+
 }
-/*based off http://madrobby.github.com/scriptaculous/ajax-autocompleter/ */
-div.autocomplete {
-  position:absolute;
-  width:250px;
-  background-color:white;
-  border:1px solid #888;
-  margin:0;
-  padding:0;
+function show_email()
+{
+	$('email').toggle();
 }
-div.autocomplete ul {
-  list-style-type:none;
-  margin:0;
-  padding:0;
-}
-div.autocomplete ul li.selected { background-color: #0cf}
-div.autocomplete ul li {
-  list-style-type:none;
-  display:block;
-  margin:0;
-  padding:2px;
-  height:32px;
-  cursor:pointer;
-}
-</style>
+</script>
 </head>
 
 <body>
-<form method="post" action="javascript:submit_form()" id="search_form">
+
+<div id = "top" class = "top_banner"><img height = "125" src = "<?PHP echo str_replace('index.php/','',site_url('images/njitlogo.jpg'))?>">Schedule Builder 2.0</div>
+<br />
+
+<!-- Basic Search Form -->
+<div id = "bSearch" style = "display:block">
+<form method = "post" action = "" id = "basic_search">
+Basic Search
+<table border = "1">
+<tr>
+<td>
+Keyword: <input type = "text" id = "keyword" name = "keyword" /><br />
+<script type = "text/javascript">new Tip(keyword, 'Ex: Roadmap to Computing, Theodore Nicholson, CS114');</script>
+<!-- Autocompleter:
+<div id ="keyword_auto" class ="autocomplete"></div>
+<script type = "text/javascript">new Ajax.Autocompleter('TBD', 'TBD', <?PHP echo site_url('search/TBA_autocomplete')?>');</script> -->
+<br />
+Exclude: &nbsp<input type = "text" id = "exclude" name = "exclude" /><br />
+<script type = "text/javascript">new Tip(exclude, 'Enter keyword to be excluded from search');</script>
+</td>
+<td>
+Day Restriction
+<br />
+<input type = "radio" name = "day" value = "default" />I don't care<br />
+<input type = "radio" name = "day" value = "nMon" />No Mondays<br />
+<input type = "radio" name = "day" value = "nFri" />No Fridays<br />
+</td>
+<td>
+<br />
+Time Restriction
+<br />
+<input type = "radio" name = "time" value = "default" />I don't care<br />
+<input type = "radio" name = "time" value = "1" />8:30am<br />
+<input type = "radio" name = "time" value = "2" />Before 10am<br />
+<input type = "radio" name = "time" value = "3" />Night classes (6pm)<br />
+</td>
+<td>
+<br />
+Course Level
+<br />
+<input type = "radio" name = "course_level" value = "default" />I don't care<br />
+<input type = "radio" id = "a" name = "course_level" value = "1" />Lower<br />
+<input type = "radio" id = "b" name = "course_level" value = "2" />Upper<br />
+<input type = "radio" id = "c" name = "course_level" value = "3" />Graduate<br />
+<script type = "text/javascript">new Tip(a, '100/200 level courses');
+new Tip(b, '300/400 level courses');
+new Tip(c, 'Graduate level courses');</script>
+</td>
+<td>
+<input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
+<br />
+<br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type = "submit" value = "Search" />
+<br />
+<a href="javascript:toggle_search();">Advanced Search</a>
+</td>
+</tr>
+</table>
+</form>
+</div>
+<!-- End Basic Search Form -->
+
+<!-- Advanced Search Form -->
+<div id="aSearch" style="display:none">
+<form method = "post" action = "javascript:submit_form()" id = "search_form">
+Advanced Search
 <table>
 <tr>
 <td>
-Specify criteria for classes
-<br />
-<br />
-
-<!-- There should be an autocompleter for this textfield -->
 Professor: <input type = "text" id = "prof" name = "prof" /><br />
 <div id = "prof_auto" class="autocomplete"></div>
 <script type="text/javascript">
 new Ajax.Autocompleter('prof','prof_auto','<?PHP echo site_url('search/professor_autocomplete')?>');
+new Tip(prof, 'Ex: Theodore Nicholson, Levy, John');
 </script>
-
-
-<!-- Autocomplete for this too -->
-Subject: <input type = "text" id = "subj" name = "subj" /><br />
+<br />
+Subject: &nbsp&nbsp&nbsp&nbsp<input type = "text" id = "subj" name = "subj" /><br />
 <div id = "subj_auto" class="autocomplete"></div>
 <script type="text/javascript">
 new Ajax.Autocompleter('subj','subj_auto','<?PHP echo site_url('search/subject_autocomplete')?>');
+new Tip(subj, 'Ex: Roadmap to Computing, CS114, Math');
 </script>
-
+<br />
 Specify a time range:
 
 Within: <select name = "start_time">
@@ -105,41 +163,66 @@ to: <select name = "end_time">
 <option value = "21:45">9:45pm</option>
 </select>
 </td>
-
 <td>
-Filters:
-<table>
-<tr>
-<td>
-<input type = "checkbox" name = "date[]" value = "M" />Monday<br />
-<input type = "checkbox" name = "date[]" value = "T" />Tuesday<br />
-<input type = "checkbox" name = "date[]" value = "W" />Wednesday<br />
-<input type = "checkbox" name = "date[]" value = "R" />Thursday<br />
-<input type = "checkbox" name = "date[]" value = "F" />Friday<br />
-<input type = "checkbox" name = "date[]" value = "S" />Saturday<br />
+Day Restriction
+<br />
+<input type = "radio" name = "day" value = "default" />I don't care<br />
+<input type = "radio" name = "day" value = "nMon" />No Mondays<br />
+<input type = "radio" name = "day" value = "nFri" />No Fridays<br />
 </td>
 <td>
-<input type = "checkbox" name = "grad" value = "grad" />Graduate class<br />
-<input type = "checkbox" name = "rutgers" value = "rut" />Rutgers class<br />
-<input type = "checkbox" name = "online" value = "online" />Distance Learning class<br />
-<input type = "checkbox" name = "honors" value = "honors" />Honors class<br />
-
-<input type = "submit" value = "Search" />
+<br />
+Time Restriction
+<br />
+<input type = "radio" name = "time" value = "default" />I don't care<br />
+<input type = "radio" name = "time" value = "1" />8:30am<br />
+<input type = "radio" name = "time" value = "2" />Before 10am<br />
+<input type = "radio" name = "time" value = "3" />Night classes (6pm)<br />
+</td>
+<td>
+<br />
+Course Level
+<br />
+<input type = "radio" name = "course_level" value = "default" />I don't care<br />
+<input type = "radio" id = "a" name = "course_level" value = "1" />Lower<br />
+<input type = "radio" id = "b" name = "course_level" value = "2" />Upper<br />
+<input type = "radio" id = "c" name = "course_level" value = "3" />Graduate<br />
+<script type = "text/javascript">new Tip(a, '100/200 level courses');
+new Tip(b, '300/400 level courses');
+new Tip(c, 'Graduate level courses');</script>
 </td>
 </tr>
-</table>
-
-
-
+<tr>
+<td></td>
+<td>
+Distance Learning
+<br />
+<input type = "radio" name = "online" value = "default" />I don't care<br />
+<input type = "radio" name = "online" value = "show_online" />Show Online Classes<br />
+<input type = "radio" name = "online" value = "hide_online" />Don't Show Online Classes<br />
+</td>
+<td>
+Honors
+<br />
+<input type = "radio" name = "honors" value = "default" />I don't care<br />
+<input type = "radio" name = "honors" value = "show_honors" />Show Honors Classes<br />
+<input type = "radio" name = "honors" value = "hide_honors" />Don't Show Honors Classes<br />
+</td>
+<td>
+<input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
+<br />
+<br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type = "submit" value = "Search" />
+<br />
+<a href="javascript:toggle_search();">Return to Basic Search</a>
 </td>
 </tr>
 </table>
 </form>
-
+</div>
+<!-- End Advanced Search Form -->
 
 <div id="full_search_results"></div>
 
 </body>
-
-
 </html>
