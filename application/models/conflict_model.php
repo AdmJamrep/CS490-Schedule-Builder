@@ -68,6 +68,18 @@ class Conflict_model extends CI_Model
 				{
 					continue;
 				}
+				/**
+				 * This prevents a class from showing up as in conflict
+				 * with itself -- and causes the class in question to be 
+				 * removed from the result (if a class is already in your
+				 * schedule, why should it appear in the search results?)
+				**/
+				if($session1->call_number == $session2->call_number &&
+						$break_on_conflict === FALSE)
+				{
+					unset($first_course_list->classes[$session1->call_number]);
+					continue;
+				}
 				
 				$in_conflict = $this->has_conflict($session1->start_datetime,
 						$session1->end_datetime,$session2->start_datetime,
@@ -87,6 +99,9 @@ class Conflict_model extends CI_Model
 							classes[$session2->call_number];
 					$conflict = null;
 					$conflict->name = $conflicting_class->name;
+					$conflict->abbreviation = $conflicting_class->abbreviation;
+					$conflict->course_number = $conflicting_class->course_number;
+					$conflict->section_number = $conflicting_class->section_number;
 					$conflict->start_datetime = $session2->start_datetime;
 					$conflict->end_datetime = $session2->end_datetime;
 					

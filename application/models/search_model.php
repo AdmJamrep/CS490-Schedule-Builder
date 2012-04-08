@@ -13,12 +13,16 @@ class Search_model extends CI_Model
 	private $days = array();
 	private $rutgers = '';
 	private $honors = '';
-	private $graduate = '';
+	private $level = '';
 	private $tba = '';
 	private $online = '';
 	private $professor = '';
 	private $semester = '';
 	private $year = '';
+	private $course_number = '';
+	private $section_number = '';
+	private $exclude = '';
+	private $hide_closed = FALSE;
 	
 	private $valid_days = array('M','T','W','R','F','S');
 	private $valid_semesters = array('winter','spring','summer','fall');
@@ -125,17 +129,21 @@ class Search_model extends CI_Model
 		return $this;
 	}
 	/**
-	 * sets the graduate course filtering value (see documentation
-	 * of search_model->set_rutgers for more information on
-	 * filtering values)
-	 * @param boolean graduate
+	 * sets the course filtering value 
+	 * @param boolean level
 	 * @return Search_model
 	**/
-	public function set_graduate($graduate)
+	public function set_level($level)
 	{
-		assert(is_bool($graduate));
+		$valid_levels = array('lower','upper','graduate');
+		assert(in_array($level,$valid_levels));
 		
-		$this->graduate = $graduate;
+		$this->level = $level;
+		return $this;
+	}
+	public function hide_closed()
+	{
+		$this->hide_closed = TRUE;
 		return $this;
 	}
 	/**
@@ -204,6 +212,18 @@ class Search_model extends CI_Model
 		$this->year = $year;
 		return $this;
 	}
+	public function set_course_number($course_number)
+	{
+		$this->course_number = $course_number;
+	}
+	public function set_section_number($section_number)
+	{
+		$this->section_number = $section_number;
+	}
+	public function set_exclude($exclude)
+	{
+		$this->exclude = $exclude;
+	}
 	/**
 	 * Performs the search
 	 * @return array of row objects from the course_sections 
@@ -227,7 +247,14 @@ class Search_model extends CI_Model
 					ON c.call_number = t1.call_number
 				JOIN courses co
 					ON co.abbreviation = c.abbreviation
-					AND co.course_number = c.course_number ';
+					AND co.course_number = c.course_number 
+				JOIN subjects s
+					ON s.abbreviation = c.abbreviation';
+		
+		if($this->online !== FALSE && !empty($this->days))
+		{
+			$this->days[] = 'TBA';
+		}
 		
 		$day_questions = $this->course_list_model->print_question_marks(
 				count($this->days));
@@ -252,10 +279,18 @@ class Search_model extends CI_Model
 					$query_params = array_merge($query_params,$this->days);
 				}
 				$query_string .= '
-						(t2.start_time NOT BETWEEN ? AND ? OR t2.end_time > ?)';
+						((t2.start_time NOT BETWEEN ? AND ? OR t2.end_time > ?)';
 				$query_params[] = $this->start_time;
 				$query_params[] = $this->end_time;
 				$query_params[] = $this->end_time;
+				if($this->online !== FALSE)
+				{
+					$query_string .= ' 
+						AND t2.start_time <> "00:00:00"';
+				}
+				$query_string .= ')';
+				
+				
 				if(!empty($this->days))
 				{
 					$query_string .= ')';
@@ -295,11 +330,20 @@ class Search_model extends CI_Model
 		if(!empty($this->start_time))
 		{
 			$query_string .= '
-					AND t1.start_time BETWEEN ? AND ?
-					AND t1.end_time <= ?';
+					AND ((t1.start_time BETWEEN ? AND ?
+					AND t1.end_time <= ?) ';
 			$query_params[] = $this->start_time;
 			$query_params[] = $this->end_time;
 			$query_params[] = $this->end_time;
+			
+			if($this->online !== FALSE)
+			{
+				$query_string .= '
+					OR t1.start_time = "00:00:00"';
+			}
+			
+			$query_string .= '
+					)';
 		}
 		if(!empty($this->subjects))
 		{
@@ -338,25 +382,28 @@ class Search_model extends CI_Model
 			$query_string .= '
 					AND c.section_number NOT LIKE "4%" ';
 		}
-		if($this->graduate === TRUE)
+		if(!empty($this->level))
 		{
-			$query_string .= '
-					AND SUBSTR(c.course_number,1,1) IN ("5","6","7") ';
+			if($this->level == 'lower')
+			{
+				$query_string .= '
+						AND SUBSTR(c.course_number,1,1) IN ("1","2") ';
+			}
+			else if($this->level == 'upper')
+			{
+				$query_string .= '
+						AND SUBSTR(c.course_number,1,1) IN ("3","4") ';
+			}
+			else if($this->level == 'graduate')
+			{
+				$query_string .= '
+						AND SUBSTR(c.course_number,1,1) IN ("5","6","7") ';
+			}
 		}
-		else if($this->graduate === FALSE)
+		if($this->hide_closed !== FALSE)
 		{
 			$query_string .= '
-					AND SUBSTR(c.course_number,1,1) NOT IN ("5","6","7") ';
-		}
-		if($this->tba === TRUE)
-		{
-			$query_string .= '
-					AND t1.day = "TBA" ';
-		}
-		else if($this->tba === FALSE)
-		{
-			$query_string .= '
-					AND t1.day <> "TBA" ';
+					AND status = "Open" ';
 		}
 		if(!empty($this->professor))
 		{
@@ -364,15 +411,50 @@ class Search_model extends CI_Model
 					AND instructor = ? ';
 			$query_params[] = $this->professor;
 		}
+		if(!empty($this->course_number))
+		{
+			$query_string .= '
+					AND co.course_number = ? ';
+			$query_params[] = $this->course_number;
+		}
+		if(!empty($this->section_number))
+		{
+			$query_string .= '
+					AND c.section_number = ? ';
+			$query_params[] = $this->section_number;
+		}
 		if(!empty($this->keyword))
 		{
 			$query_string .= '
-					AND (name LIKE CONCAT("%",?,"%") OR 
-					description LIKE CONCAT("%",?,"%")) ';
+					AND (co.name LIKE CONCAT("%",?,"%") OR 
+					description LIKE CONCAT("%",?,"%") OR 
+					s.name LIKE CONCAT("%",?,"%") OR 
+					instructor LIKE CONCAT("%",?,"%")) ';
+			$query_params[] = $this->keyword;
+			$query_params[] = $this->keyword;
 			$query_params[] = $this->keyword;
 			$query_params[] = $this->keyword;
 		}
+		if(!empty($this->exclude))
+		{
+			$query_string .= '
+					AND (co.name NOT LIKE CONCAT("%",?,"%") AND 
+					description NOT LIKE CONCAT("%",?,"%") AND 
+					s.name NOT LIKE CONCAT("%",?,"%") AND 
+					instructor NOT LIKE CONCAT("%",?,"%")) ';
+			$query_params[] = $this->exclude;
+			$query_params[] = $this->exclude;
+			$query_params[] = $this->exclude;
+			$query_params[] = $this->exclude;
+		}
+		
+		//this is a soft counter to the user running an extremely
+		//broad search
+		$query_string .= '
+				LIMIT 101 ';
+		
 		$result = $this->db->query($query_string,$query_params);
+		//die($this->db->last_query());
 		$return = $this->course_list_model->format_course_list($result);
 		
 		return $return;

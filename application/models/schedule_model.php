@@ -38,9 +38,20 @@ class Schedule_model extends CI_Model
 			join('courses co','co.abbreviation = c.abbreviation '.
 					'AND co.course_number = c.course_number')->
 			where('ss.num_identifier',$schedule_id)->
+			select('*,ss.name schedule_name')->
 			get();
 		
 		$this->courses = $this->course_list_model->format_course_list($result);
+		$this->courses->is_saved = 0;
+		$this->courses->can_edit = FALSE;
+		$this->courses->name = '';
+		$this->courses->schedule_id = $schedule_id;
+		if($result->num_rows() > 0)
+		{
+			$this->courses->is_saved = $result->row()->saved_flag > 0;
+			$this->courses->name = $result->row()->schedule_name;
+			$this->courses->can_edit = $schedule_id == $this->schedule_id;
+		}
 		return $this->courses;
 	}
 	/**
@@ -76,6 +87,7 @@ class Schedule_model extends CI_Model
 		$this->schedule_id = $this->db->insert_id();
 		
 		$this->session->set_userdata('schedule_id',$this->schedule_id);
+		$this->session->set_userdata('is_saved',FALSE);
 		return $this->schedule_id;
 	}
 	/**
@@ -143,15 +155,68 @@ class Schedule_model extends CI_Model
 		
 		$this->schedule_model->get_schedule();
 	}
+	public function has_schedule()
+	{
+		return $this->schedule_id > 0;
+	}
+	public function get_schedule_id()
+	{
+		return $this->schedule_id;
+	}
+	public function is_saved()
+	{
+		return  $this->session->userdata('is_saved');
+	}
 	/**
 	 * mark a schedule to be permanently saved
 	 * @param string name
 	**/
-	public function save_schedule($name)
+	public function save_schedule($name,$email)
 	{
 		$this->db->set('name',$name)->
 			set('saved_flag',1)->
+			set('email',$email)->
 			where('num_identifier',$this->schedule_id)->
-			update('saved_schedule_classes');
+			update('saved_schedules');
+		$this->session->set_userdata('is_saved',TRUE);
+		return $this->schedule_id;
+	}
+	public function request_access($schedule_id)
+	{
+		$schedule = $this->db->where('num_identifier',$schedule_id)->
+			get('saved_schedules');
+		
+		if($schedule->num_rows() > 0)
+		{
+			$data = $schedule->row();
+			$this->load->model('validation_code_model');
+			
+			$code = $this->validation_code_model->email_code($data->email,
+					'confirmation_email',$data);
+			
+			if($code !== FALSE)
+			{
+				$insert = null;
+				$insert->code = $code;
+				$insert->num_identifier = $schedule_id;
+				$this->db->insert('saved_schedule_codes',$insert);
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+	public function confirm_access($code)
+	{
+		$validate_code = $this->db->where('code',$code)->
+			where('creation_date >','DATE_SUB( NOW( ) , INTERVAL 1 DAY)',FALSE)->
+			get('saved_schedule_codes');
+		if($validate_code->num_rows() > 0)
+		{
+			$schedule_id = $validate_code->row()->num_identifier;
+			$this->session->set_userdata('schedule_id',$schedule_id);
+			$this->session->set_userdata('is_saved',TRUE);
+			return $schedule_id;
+		}
+		return FALSE;
 	}
 }

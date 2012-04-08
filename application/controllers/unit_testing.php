@@ -6,6 +6,13 @@ class Unit_Testing extends CI_Controller
 		parent::__construct();
 		$this->load->library('unit_test');
 	}
+	public function test_validation_code_model()
+	{
+		$this->load->model('validation_code_model');
+		$code = $this->validation_code_model->email_code('drw5@njit.edu','welcome_message');
+		$this->unit->run($code,'is_string');
+		echo var_export($code).'<br />'.$this->unit->report();
+	}
 	public function test_search()
 	{
 		$this->load->model('schedule_model');

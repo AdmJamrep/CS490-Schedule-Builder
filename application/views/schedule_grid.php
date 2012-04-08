@@ -1,6 +1,9 @@
 <!--Author: Brian Corzo-->
 <!-- The Schedule Table -->
 <!-- Each cell should contain the class name and location -->
+<table><tr><td>
+
+
 <table border = "4">
 <tr>
 <th>Day/Time</th>
@@ -42,7 +45,7 @@
 </table>
 <!-- END Schedule Table -->
 <br />
-<table style="width:100%" border="4">
+<table border="4">
 <tr>
 	<th>CALL NUMBER</th><th>CLASS</th><th>TITLE</th><th>DATE/TIME/LOCATION</th><th>INSTRUCTOR</th><th>CREDITS</th>
 </tr>
@@ -68,3 +71,5 @@
 	</tr>
 <?PHP endforeach;?>
 </table>
+
+</td></tr></table>

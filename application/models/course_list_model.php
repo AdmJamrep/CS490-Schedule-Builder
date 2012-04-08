@@ -156,6 +156,7 @@ class Course_list_model extends CI_Model
 	/**
 	 * comparison function for sorting dates and times by
 	 * start_time, day ASC (to use SQL terms)
+	 * @note this function requires PHP 5.2.2 or greater
 	**/
 	public function date_and_time_compare($time_and_location1,
 			$time_and_location2)

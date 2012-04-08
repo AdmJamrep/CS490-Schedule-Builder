@@ -1,8 +1,4 @@
-<!--Author: Brian Corzo-->
-<div style="float:left; width:15%; padding-right:10px;">
-<?PHP $this->load->view('schedule_list',$schedule);?>
-</div>
-<div style="width:100%;">
+<?PHP if(count($result->classes) > 0):?>
 <table cellspacing = "1">
 
 <tr>
@@ -16,16 +12,20 @@
 <tr class = "row<?PHP echo $rowclass ?>">
 	<td>
 		<?PHP echo $class->abbreviation?>-<?PHP echo $class->course_number?><br />
-		#<?PHP echo $class->section_number?><br />
+		<?PHP echo $class->section_number?><br />
 		<?PHP echo $class->name?>
 	</td>
 	<td>
 		<?PHP $class_list = $result->time_assoc[$call_number];?>
+		<?PHP if($result->times[$class_list[0]]->start_datetime !== FALSE):?>
 		<?PHP foreach($class_list as $t):?>
 			<?PHP $time = $result->times[$t]?>
 			<?PHP echo $time->start_datetime->format('D g:i')?>-<?PHP echo $time->end_datetime->format('g:i')?>
 			<br />
 		<?PHP endforeach;?>
+		<?PHP else:?>
+		Not Specified
+		<?PHP endif;?>
 	</td>
 	<td><?PHP echo $class->status?> (<?PHP echo $class->current_size?>/<?PHP echo $class->max_size?>)</td>
 	<td><?PHP echo $class->instructor?></td>
@@ -58,7 +58,7 @@
 		
 			Conflicts With:<br />
 			<?PHP foreach($class->conflicts as $conflicting_call=>$c):?>
-				<?PHP echo $c[0]->name ?> (
+				<?PHP echo $c[0]->abbreviation?>-<?PHP echo $c[0]->course_number?> <?PHP echo $c[0]->section_number?> <?PHP echo $c[0]->name ?> (
 				<?PHP foreach($c as $key=>$conflict):?>
 					<?PHP if($key>0):?>,<?PHP endif;?>
 					<?PHP echo $conflict->start_datetime->format('D g:i').'-'.
@@ -72,4 +72,6 @@
 </tr>
 <?PHP endforeach;?>
 </table>
-</div>
+<?PHP else:?>
+<h4>No Results Found</h4>
+<?PHP endif;?>
