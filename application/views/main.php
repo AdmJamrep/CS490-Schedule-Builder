@@ -96,16 +96,6 @@ function new_schedule()
 	url = '<?PHP echo site_url('schedule/new_schedule')?>';
 	new Ajax.Request(url,{onSuccess:submit_form});
 }
-<?PHP if(isset($load_schedule)):?>
-function start_edit()
-{
-	url = '<?PHP echo site_url('schedule/request_access/'.$result->schedule->schedule_id)?>';
-	new Ajax.Request(url,{onSuccess:confirm_edit});	
-}
-function confirm_edit()
-{
-	alert('A message has been sent to the email this schedule was saved with. Please click the link in that email to begin editing');
-}
 function show_undo()
 {
 	if(last_action == 'add')
@@ -155,6 +145,16 @@ function clear_and_submit_form()
 	last_action = null;
 	last_action_params = null;
 	submit_form();
+}
+<?PHP if(isset($load_schedule)):?>
+function start_edit()
+{
+	url = '<?PHP echo site_url('schedule/request_access/'.$result->schedule->schedule_id)?>';
+	new Ajax.Request(url,{onSuccess:confirm_edit});	
+}
+function confirm_edit()
+{
+	alert('A message has been sent to the email this schedule was saved with. Please click the link in that email to begin editing');
 }
 <?PHP endif;?>
 </script>
