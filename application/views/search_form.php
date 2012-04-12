@@ -53,7 +53,8 @@ function show_email()
 
 <body>
 
-<div id = "top" class = "top_banner"><img height = "125" src = "<?PHP echo str_replace('index.php/','',site_url('images/njitlogo.jpg'))?>">Schedule Builder 2.0</div>
+
+<div id = "header">Schedule Builder 2</div>
 <br />
 
 <!-- Basic Search Form -->
@@ -72,7 +73,7 @@ Exclude: &nbsp<input type = "text" id = "exclude" name = "exclude" /><br />
 <td>
 Day Restriction
 <br />
-<input type = "radio" name = "day" value = "default" />I don't care<br />
+<input type = "radio" name = "day" value = "default" />Whatever<br />
 <input type = "radio" name = "day" value = "nMon" />No Mondays<br />
 <input type = "radio" name = "day" value = "nFri" />No Fridays<br />
 </td>
@@ -115,7 +116,7 @@ new Tip(c, 'Graduate level courses');</script>
 <div id="aSearch" style="display:none">
 <form method = "post" action = "javascript:submit_form()" id = "search_form">
 Advanced Search
-<table>
+<table border = "1">
 <tr>
 <td>
 Professor: <input type = "text" id = "prof" name = "prof" /><br />
@@ -172,7 +173,7 @@ Time Restriction
 <input type = "radio" name = "time" value = "3" />Night classes (6pm)<br />
 </td>
 <td>
-<br />
+<br /><br />
 Course Level
 <br />
 <input type = "radio" name = "course_level" value = "default" />I don't care<br />

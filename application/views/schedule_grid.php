@@ -1,7 +1,12 @@
 <!--Author: Brian Corzo-->
 <!-- The Schedule Table -->
 <!-- Each cell should contain the class name and location -->
-<table><tr><td>
+<link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/style.css'))?>" />
+
+
+
+<div style= "width:100%; text-align:center">
+<table id = "schedule_grid"><tr><td> 
 
 
 <table border = "4">
@@ -73,3 +78,4 @@
 </table>
 
 </td></tr></table>
+</div>

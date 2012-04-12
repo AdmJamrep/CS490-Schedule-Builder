@@ -162,14 +162,14 @@ function confirm_edit()
 
 <body>
 
-<div id = "top" class = "top_banner"><img height = "125" src = "<?PHP echo str_replace('index.php/','',site_url('images/njitlogo.jpg'))?>">Schedule Builder 2.0</div>
+<div id = "header"><img height = "125" src = "<?PHP echo str_replace('index.php/','',site_url('images/njitlogo.jpg'))?>">Schedule Builder 2.0</div>
 <br />
 <?PHP if(!isset($load_schedule) || $result->schedule->can_edit):?>
 <!-- Basic Search Form -->
 <div id = "bSearch" style = "display:block">
 <form method = "post" action = "javascript:submit_form()" id = "basic_search">
 Basic Search
-<table border = "1">
+<table padding = "25">
 <tr>
 <td>
 Keyword: <input type = "text" id = "keyword" name = "keyword" /><br />
@@ -224,7 +224,7 @@ new Tip(c, 'Graduate level courses');</script>
 <div id="aSearch" style="display:none">
 <form method = "post" action = "javascript:submit_form()" id = "search_form">
 Advanced Search
-<table>
+<table padding = "25">
 <tr>
 <td>
 Professor: <input type = "text" id = "prof" name = "prof" /><br />
@@ -268,6 +268,7 @@ to: <select name = "end_time">
 </select>
 <br />
 <br />
+<br />
 Day Restriction
 <br />
 <input type = "radio" name = "day" value = "default" checked />I don't care<br />
@@ -275,6 +276,8 @@ Day Restriction
 <input type = "radio" name = "day" value = "nFri" />No Fridays<br />
 </td>
 <td>
+<br />
+<br />
 Course Level
 <br />
 <input type = "radio" name = "course_level" value = "default" checked />I don't care<br />
@@ -293,11 +296,13 @@ Honors
 <input type = "radio" name = "honors" value = "hide_honors" />Don't Show Honors Classes<br />
 </td>
 <td>
+<br />
 Distance Learning
 <br />
 <input type = "radio" name = "online" value = "default" checked />I don't care<br />
 <input type = "radio" name = "online" value = "show_online" />Only Show Online Classes<br />
 <input type = "radio" name = "online" value = "hide_online" />Don't Show Online Classes<br />
+<br />
 <br />
 <input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
 <br />
