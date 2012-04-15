@@ -1,6 +1,17 @@
 <!--Author: Brian Corzo-->
+<<<<<<< HEAD
 <!-- Schedule Grid -->
 <link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/style.css'))?>" />
+=======
+<!-- The Schedule Table -->
+<!-- Each cell should contain the class name and location -->
+<link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/style.css'))?>" />
+
+
+
+<div style= "width:100%; text-align:center">
+<table id = "schedule_grid"><tr><td> 
+>>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 
 
 

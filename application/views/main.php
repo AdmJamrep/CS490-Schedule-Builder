@@ -167,14 +167,23 @@ function confirm_edit()
 <img style = "float:left" src = "<?PHP echo str_replace('index.php/','',site_url('images/njit_logo.gif'))?>">
 Schedule Builder 2.0
 
+<<<<<<< HEAD
 </div>
+=======
+<div id = "header"><img height = "125" src = "<?PHP echo str_replace('index.php/','',site_url('images/njitlogo.jpg'))?>">Schedule Builder 2.0</div>
+>>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 <br />
 <?PHP if(!isset($load_schedule) || $result->schedule->can_edit):?>
 <!-- Basic Search Form -->
 <div id = "bSearch" style = "display:block">
 <form method = "post" action = "javascript:submit_form()" id = "basic_search">
+<<<<<<< HEAD
 <b>Basic Search</b>
 <table style = "border-spacing: 25px 0px">
+=======
+Basic Search
+<table padding = "25">
+>>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 <tr>
 <td>
 <b>Keyword:</b> <input type = "text" id = "keyword" class = "rounded_corners" name = "keyword" /><br />
@@ -228,8 +237,13 @@ new Tip(c, 'Graduate level courses');</script>
 <!-- Advanced Search Form -->
 <div id="aSearch" style="display:none">
 <form method = "post" action = "javascript:submit_form()" id = "search_form">
+<<<<<<< HEAD
 <b>Advanced Search</b>
 <table style = "border-spacing: 25px 5px">
+=======
+Advanced Search
+<table padding = "25">
+>>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 <tr>
 
 <td>
@@ -272,12 +286,27 @@ to: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name = "end_time">
 <option value = "21:00">9:00pm</option>
 <option value = "21:45" selected>9:45pm</option>
 </select>
+<<<<<<< HEAD
+=======
+<br />
+<br />
+<br />
+Day Restriction
+<br />
+<input type = "radio" name = "day" value = "default" checked />I don't care<br />
+<input type = "radio" name = "day" value = "nMon" />No Mondays<br />
+<input type = "radio" name = "day" value = "nFri" />No Fridays<br />
+>>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 </td>
 
 <td>
 <br />
 <br />
+<<<<<<< HEAD
 <b>Course Level</b>
+=======
+Course Level
+>>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 <br />
 <input type = "radio" name = "course_level" value = "default" checked />I don't care<br />
 <input type = "radio" id = "a" name = "course_level" value = "1" />Lower<br />
@@ -289,7 +318,12 @@ new Tip(c, 'Graduate level courses');</script>
 </td>
 
 <td>
+<<<<<<< HEAD
 <b>Distance Learning</b>
+=======
+<br />
+Distance Learning
+>>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 <br />
 <input type = "radio" name = "online" value = "default" checked />I don't care<br />
 <input type = "radio" name = "online" value = "show_online" />Only Show Online Classes<br />
@@ -312,12 +346,16 @@ new Tip(c, 'Graduate level courses');</script>
 <td>
 <b>Honors</b>
 <br />
+<<<<<<< HEAD
 <input type = "radio" name = "honors" value = "default" checked />I don't care<br />
 <input type = "radio" name = "honors" value = "show_honors" />Only Show Honors Classes<br />
 <input type = "radio" name = "honors" value = "hide_honors" />Don't Show Honors Classes<br />
 </td>
 
 <td style = "text-align:center">
+=======
+<br />
+>>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 <input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
 <br />
 <br />
