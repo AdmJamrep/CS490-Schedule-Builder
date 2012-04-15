@@ -1,5 +1,5 @@
 <?PHP if(count($result->classes) > 0):?>
-<table cellspacing = "1">
+<table cellpadding = "4" cellspacing = "1">
 
 <tr>
 	<th>NAME</th><th>DAYS/TIMES</th><th>STATUS</th><th>INSTRUCTOR</th><th>CREDITS</th><th>PREREQUISITES</th><th>ACTION</th>
@@ -31,7 +31,7 @@
 	<td><?PHP echo $class->instructor?></td>
 	<td><?PHP echo $class->credits?></td>
 	<td><div><?PHP echo $class->{'pre-requisites'}?></div><div><?PHP echo $class->comments?></div></td>
-	<td>
+	<td style = "text-align:center"      >
 		<form method="post" id="add_form_<?PHP echo $call_number ?>" 
 				action="javascript:add_course($('add_form_<?PHP echo $call_number ?>'))">
 		<input type="hidden" name="call_number" value="<?PHP echo $call_number ?>"/>
@@ -53,7 +53,9 @@
 </tr>
 
 <tr>
-<tr style="background-color:#fcc">
+<!-- 
+<tr style="background-color:#fcc"> -->
+<tr style="background-color:#FF3333; color:#000000; font-weight:bold">
 	<td colspan="7">
 		
 			Conflicts With:<br />

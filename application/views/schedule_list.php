@@ -18,14 +18,14 @@
 		<a href="javascript:show_email()">Save this Schedule</a><br />
 		<div id = "email" style="display:none">
 			<form method = "post" action = "javascript:save_schedule()" id = "save_sched">
-				Schedule Name: <input type = "text" id = "sched_name" name = "sched_name" size ="15" /><br />
-				Email: <input type = "text" name = "email" size = "15" /><br />
-				Confirm Email: <input type = "text" name = "email_conf" size = "15" /><br />
+				Schedule Name: <input type = "text" id = "sched_name" name = "sched_name" size ="12" /><br />
+				Email: <input type = "text" name = "email" size = "12" /><br />
+				Confirm Email: <input type = "text" name = "email_conf" size = "12" /><br />
 			<input type = "submit" value = "Submit" />
 		</form>
 		</div>
 	<?PHP else:?>
-		Permalink: <input type="text" value="<?PHP echo site_url('schedule/view/'.$schedule->schedule_id)?>"/><br />
+		Permalink: <input type="text" size = "15" value="<?PHP echo site_url('schedule/view/'.$schedule->schedule_id)?>"/><br />
 	<?PHP endif;?>
 	<a href="<?PHP if($schedule->can_edit):?>javascript:new_schedule()<?PHP else:?><?PHP echo site_url('search')?><?PHP endif;?>">Start New Schedule</a>
 <?PHP else:?>

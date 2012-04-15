@@ -1,4 +1,5 @@
 <!--Author: Brian Corzo-->
+<link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/style.css'))?>"> 
 <div style="float:left; width:15%; padding-right:10px;" id="side_panel">
 <?PHP $this->load->view('schedule_list',$schedule);?>
 </div>

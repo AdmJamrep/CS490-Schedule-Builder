@@ -1,10 +1,14 @@
 <!--Author: Brian Corzo-->
-<!-- The Schedule Table -->
-<!-- Each cell should contain the class name and location -->
-<table><tr><td>
+<!-- Schedule Grid -->
+<link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/style.css'))?>" />
 
 
-<table border = "4">
+
+<div style= "width:100%; text-align:center">
+<table style = "text-align:center"><tr><td> 
+
+
+<table class = "grid">
 <tr>
 <th>Day/Time</th>
 <th>MON</th>
@@ -73,3 +77,4 @@
 </table>
 
 </td></tr></table>
+</div>

@@ -3,7 +3,6 @@
 <head>
 <title>Schedule Builder 2.0</title>
 
-
 <link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/style.css'))?>" />
 <link rel="stylesheet" type="text/css" href="<?PHP echo str_replace('index.php/', '', site_url('stylesheets/prototip.css'))?>" />
 
@@ -161,42 +160,48 @@ function confirm_edit()
 </head>
 
 <body>
+<!--
+<div id = "header"><img height = "125" src = "<?PHP echo str_replace('index.php/','',site_url('images/njitlogo.jpg'))?>">Schedule Builder 2.0</div> -->
 
-<div id = "top" class = "top_banner"><img height = "125" src = "<?PHP echo str_replace('index.php/','',site_url('images/njitlogo.jpg'))?>">Schedule Builder 2.0</div>
+<div id = "header">
+<img style = "float:left" src = "<?PHP echo str_replace('index.php/','',site_url('images/njit_logo.gif'))?>">
+Schedule Builder 2.0
+
+</div>
 <br />
 <?PHP if(!isset($load_schedule) || $result->schedule->can_edit):?>
 <!-- Basic Search Form -->
 <div id = "bSearch" style = "display:block">
 <form method = "post" action = "javascript:submit_form()" id = "basic_search">
-Basic Search
-<table border = "1">
+<b>Basic Search</b>
+<table style = "border-spacing: 25px 0px">
 <tr>
 <td>
-Keyword: <input type = "text" id = "keyword" name = "keyword" /><br />
+<b>Keyword:</b> <input type = "text" id = "keyword" class = "rounded_corners" name = "keyword" /><br />
 <script type = "text/javascript">new Tip(keyword, 'Ex: Roadmap to Computing, Theodore Nicholson, CS114');</script>
 <br />
-Exclude: &nbsp<input type = "text" id = "exclude" name = "exclude" /><br />
+<b>Exclude:</b> &nbsp&nbsp<input type = "text" id = "exclude" class = "rounded_corners" name = "exclude" /><br />
 <script type = "text/javascript">new Tip(exclude, 'Enter keyword to be excluded from search');</script>
 </td>
 <td>
-Day Restriction
+<b>Day Restriction</b>
 <br />
-<input type = "radio" name = "day" value = "default" checked />I don't care<br />
-<input type = "radio" name = "day" value = "nMon" />No Mondays<br />
-<input type = "radio" name = "day" value = "nFri" />No Fridays<br />
+<input type = "radio" name = "day" id = "Radio1" value = "default" checked />I don't care<br />
+<input type = "radio" name = "day" id = "Radio2" value = "nMon" />No Mondays<br />
+<input type = "radio" name = "day" id = "Radio3" value = "nFri" />No Fridays<br />
 </td>
 <td>
 <br />
-Time Restriction
+<b>Time Restriction</b>
 <br />
 <input type = "radio" name = "time" value = "default" checked />I don't care<br />
-<input type = "radio" name = "time" value = "1" />8:30am<br />
-<input type = "radio" name = "time" value = "2" />Before 11:30am<br />
-<input type = "radio" name = "time" value = "3" />Night classes (6pm)<br />
+<input type = "radio" name = "time" value = "1" />No 8:30am classes<br />
+<input type = "radio" name = "time" value = "2" />No classes before 11:30am<br />
+<input type = "radio" name = "time" value = "3" />Show only night classes<br />
 </td>
 <td>
 <br />
-Course Level
+<b>Course Level</b>
 <br />
 <input type = "radio" name = "course_level" value = "default" checked />I don't care<br />
 <input type = "radio" id = "a" name = "course_level" value = "1" />Lower<br />
@@ -206,11 +211,11 @@ Course Level
 new Tip(b, '300/400 level courses');
 new Tip(c, 'Graduate level courses');</script>
 </td>
-<td>
+<td style = "text-align: center">
 <input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
 <br />
 <br />
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type = "submit" value = "Search" />
+<input type = "submit" value = "Search" />
 <br />
 <a href="javascript:toggle_search();">Advanced Search</a>
 </td>
@@ -223,28 +228,29 @@ new Tip(c, 'Graduate level courses');</script>
 <!-- Advanced Search Form -->
 <div id="aSearch" style="display:none">
 <form method = "post" action = "javascript:submit_form()" id = "search_form">
-Advanced Search
-<table>
+<b>Advanced Search</b>
+<table style = "border-spacing: 25px 5px">
 <tr>
+
 <td>
-Professor: <input type = "text" id = "prof" name = "prof" /><br />
+<b>Professor:<b> <input type = "text" id = "prof" class = "rounded_corners" name = "prof" /><br />
 <div id = "prof_auto" class="autocomplete"></div>
 <script type="text/javascript">
 new Ajax.Autocompleter('prof','prof_auto','<?PHP echo site_url('search/professor_autocomplete')?>');
 new Tip(prof, 'Ex: Theodore Nicholson, Levy, John');
 </script>
 <br />
-Subject: &nbsp&nbsp&nbsp&nbsp<input type = "text" id = "subj" name = "subj" /><br />
+<b>Subject:</b> &nbsp&nbsp&nbsp&nbsp&nbsp<input type = "text" id = "subj" class = "rounded_corners" name = "subj" /><br />
 <div id = "subj_auto" class="autocomplete"></div>
 <ul id = "subj_list"></ul>
 <script type="text/javascript">
 new Ajax.Autocompleter('subj','subj_auto','<?PHP echo site_url('search/subject_autocomplete')?>', {updateElement:add_subject});
 new Tip(subj, 'Ex: Computer Science, Math');
 </script>
-
 </td>
+
 <td>
-Specify a time range:<br />
+<b>Specify a time range:</b><br />
 
 Within: <select name = "start_time">
 <option value = "08:30" selected>8:30am</option>
@@ -255,7 +261,7 @@ Within: <select name = "start_time">
 <option value = "16:00">4:00pm</option>
 <option value = "18:00">6:00pm</option>
 </select><br />
-to: <select name = "end_time">
+to: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name = "end_time">
 <option value = "08:30">8:30am</option>
 <option value = "10:00">10:00am</option>
 <option value = "11:30">11:30am</option>
@@ -266,16 +272,12 @@ to: <select name = "end_time">
 <option value = "21:00">9:00pm</option>
 <option value = "21:45" selected>9:45pm</option>
 </select>
-<br />
-<br />
-Day Restriction
-<br />
-<input type = "radio" name = "day" value = "default" checked />I don't care<br />
-<input type = "radio" name = "day" value = "nMon" />No Mondays<br />
-<input type = "radio" name = "day" value = "nFri" />No Fridays<br />
 </td>
+
 <td>
-Course Level
+<br />
+<br />
+<b>Course Level</b>
 <br />
 <input type = "radio" name = "course_level" value = "default" checked />I don't care<br />
 <input type = "radio" id = "a" name = "course_level" value = "1" />Lower<br />
@@ -284,25 +286,42 @@ Course Level
 <script type = "text/javascript">new Tip(a, '100/200 level courses');
 new Tip(b, '300/400 level courses');
 new Tip(c, 'Graduate level courses');</script>
+</td>
 
+<td>
+<b>Distance Learning</b>
 <br />
-Honors
+<input type = "radio" name = "online" value = "default" checked />I don't care<br />
+<input type = "radio" name = "online" value = "show_online" />Only Show Online Classes<br />
+<input type = "radio" name = "online" value = "hide_online" />Don't Show Online Classes<br />
+</td>
+</tr>
+
+<tr>
+
+<td></td>
+
+<td>
+<b>Day Restriction</b>
+<br />
+<input type = "radio" name = "day" value = "default" checked />I don't care<br />
+<input type = "radio" name = "day" value = "nMon" />No Mondays<br />
+<input type = "radio" name = "day" value = "nFri" />No Fridays<br />
+</td>
+
+<td>
+<b>Honors</b>
 <br />
 <input type = "radio" name = "honors" value = "default" checked />I don't care<br />
 <input type = "radio" name = "honors" value = "show_honors" />Only Show Honors Classes<br />
 <input type = "radio" name = "honors" value = "hide_honors" />Don't Show Honors Classes<br />
 </td>
-<td>
-Distance Learning
-<br />
-<input type = "radio" name = "online" value = "default" checked />I don't care<br />
-<input type = "radio" name = "online" value = "show_online" />Only Show Online Classes<br />
-<input type = "radio" name = "online" value = "hide_online" />Don't Show Online Classes<br />
-<br />
+
+<td style = "text-align:center">
 <input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
 <br />
 <br />
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type = "submit" value = "Search" />
+<input type = "submit" value = "Search" />
 <br />
 <a href="javascript:toggle_search();">Return to Basic Search</a>
 </td>
@@ -310,7 +329,7 @@ Distance Learning
 </table>
 </form>
 </div>
-<div style="background-color:#fcc; text-align:center" id="undo_box"></div>
+<div style = "background-color:#00FF66; color:#000000; font-weight:bold; text-align:center;" id="undo_box"></div>
 <!-- End Advanced Search Form -->
 <?PHP else:?>
 <div style="background-color:#fcc">Viewing a saved schedule in read-only mode. If you are the owner, click <a href="javascript:start_edit()">here</a> to edit.</div><br />
