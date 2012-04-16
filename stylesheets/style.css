@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 table.grid
 {
 	border-spacing: 0px;
@@ -43,19 +42,12 @@ table.grid th
 	padding:5px;
 	-moz-border-radius:25px;    /* Firefox */
 	-webkit-border-radius:25px; /* Safari and Chrome */
-=======
-#schedule_grid
-{
-	
-
->>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 }
 
 
 
 #side_panel
 {
-<<<<<<< HEAD
 	height: auto;
 	width: auto;
 	background: #6699CC;
@@ -79,22 +71,6 @@ table.grid th
 	background-color: #000066;
 	color: #FFFFFF;
 	font-family: "Arial";
-=======
-	float: left;
-	width: 15%;
-	padding-right:10px;
-}
-#header
-{
-	position: relative;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 126px;
-	background-color: #000066;
-	color: #FFFFFF;
-	font-family: "Verdana";
->>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 	font-size: 32pt;
 	overflow: hidden;
 }
@@ -106,11 +82,7 @@ table.grid th
 	margin-right: 0;
 	margin-bottom: 0;
 	padding: 0;
-<<<<<<< HEAD
 	background-color: #FFFFFF;
-=======
-	background-color: #000066;
->>>>>>> 46a11212a44cc724d5e7d0ab939eb3530ff1230e
 	position: relative;
 	top: 0;
 	left: 0;

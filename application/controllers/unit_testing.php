@@ -6,6 +6,17 @@ class Unit_Testing extends CI_Controller
 		parent::__construct();
 		$this->load->library('unit_test');
 	}
+
+	public function file_test()
+	{
+		$im = imagecreatetruecolor(55,30);
+		$white = imagecolorallocate($im, 255, 255, 255);
+
+		imagefilledrectangle($im,4,4,50,25,$white);
+		imagepng($im,'./imagefilledrectangle.png');
+		
+		imagedestroy($im);
+	}
 	public function test_validation_code_model()
 	{
 		$this->load->model('validation_code_model');

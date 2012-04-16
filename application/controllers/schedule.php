@@ -87,6 +87,72 @@ class Schedule extends CI_Controller
 		
 		$this->load->view('schedule_grid_image',$data);
 	}
+	public function channel()
+	{
+		$cache_expire = 60*60*24*365;
+		header("Pragma: public");
+		header("Cache-Control: max-age=".$cache_expire);
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$cache_expire) . ' GMT');
+		echo '<script src="//connect.facebook.net/en_US/all.js"></script>';
+	}
+	public function test_fb_js()
+	{
+		echo "
+			<div id=\"fb-root\">
+			  <!-- The JS SDK requires the fb-root element in order to load properly. -->
+			</div>
+			<script type='text/javascript' src='".str_replace('index.php/','',site_url('javascripts/prototype.js'))."'></script>
+			<script>
+			  window.fbAsyncInit = function() {
+				FB.init({
+				  appId      : '121479874650613', // App ID
+				  channelUrl : '".site_url('schedule/channel')."', // Channel File
+				  status     : true, // check login status
+				  cookie     : true, // enable cookies to allow the server to access the session
+				  xfbml      : true  // parse XFBML
+				});
+
+				// Additional initialization code here
+			  };
+
+			  // Load the SDK Asynchronously
+			  (function(d){
+				 var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+				 if (d.getElementById(id)) {return;}
+				 js = d.createElement('script'); js.id = id; js.async = true;
+				 js.src = \"//connect.facebook.net/en_US/all.js\";
+				 ref.parentNode.insertBefore(js, ref);
+			   }(document));
+			   function do_login()
+			   {
+					 FB.login(function(response) {
+						if (response.status === 'connected') {
+							console.debug(response);
+							//window.location = '".site_url('schedule/test_facebook')."';
+						}
+						else
+						{
+							alert('FAIL!');
+						}
+					 }, {scope: 'publish_stream'});
+			   }
+			</script>
+			<a href='javascript:do_login()'>Test</a>
+		";
+	}
+	public function test_facebook()
+	{
+		$this->load->library('facebook',array(
+		  'appId'  => '	121479874650613',
+		  'secret' => '	e78188cf514c774cf9d485b2fc97b18f',
+		  'cookie' => TRUE,
+		  'fileUpload' => TRUE
+		));
+		$this->facebook->setAccessToken('AAABufDzGofUBAFd13lvSxmmvQuaXTSuHxh7npIm2MLo1aqjDFvWXpV8ffacC5ZCfO4uYWvynKbVhNpBG0tRLRtzyqKBfF4NAgjZAUdIhVZBo3lup6mh');
+		
+		$user = $this->facebook->getUser();
+		die(var_dump($user));
+	}
 	public function save_schedule()
 	{
 		$this->form_validation->set_rules('sched_name','Schedule Name','required|max_length[30]')->

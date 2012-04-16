@@ -1,0 +1,34 @@
+[1mdiff --git a/application/controllers/welcome.php b/application/controllers/welcome.php[m
+[1mdeleted file mode 100644[m
+[1mindex 21bef43..0000000[m
+[1m--- a/application/controllers/welcome.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,27 +0,0 @@[m
+[31m-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');[m
+[31m-[m
+[31m-class Welcome extends CI_Controller {[m
+[31m-[m
+[31m-	/**[m
+[31m-	 * Index Page for this controller.[m
+[31m-	 *[m
+[31m-	 * Maps to the following URL[m
+[31m-	 * 		http://example.com/index.php/welcome[m
+[31m-	 *	- or -  [m
+[31m-	 * 		http://example.com/index.php/welcome/index[m
+[31m-	 *	- or -[m
+[31m-	 * Since this controller is set as the default controller in [m
+[31m-	 * config/routes.php, it's displayed at http://example.com/[m
+[31m-	 *[m
+[31m-	 * So any other public methods not prefixed with an underscore will[m
+[31m-	 * map to /index.php/welcome/<method_name>[m
+[31m-	 * @see http://codeigniter.com/user_guide/general/urls.html[m
+[31m-	 */[m
+[31m-	public function index()[m
+[31m-	{[m
+[31m-		$this->load->view('welcome_message');[m
+[31m-	}[m
+[31m-}[m
+[31m-[m
+[31m-/* End of file welcome.php */[m
+[31m-/* Location: ./application/controllers/welcome.php */[m
+\ No newline at end of file[m

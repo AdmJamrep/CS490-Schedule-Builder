@@ -1,0 +1,1 @@
+<img src="<?PHP echo str_replace('index.php/','',site_url('images/chuck.jpg'))?>" />

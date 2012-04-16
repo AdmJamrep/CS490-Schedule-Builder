@@ -43,6 +43,12 @@ class Search extends CI_Controller
 		$exclude = $this->input->post('exclude');
 		if(!empty($exclude))
 		{
+			if($exclude == 'Chuck Norris')
+			{
+				$this->load->view('chuck');
+				return;
+			}
+		
 			$this->search_model->set_exclude($exclude);
 		}
 		$time = $this->input->post('time');

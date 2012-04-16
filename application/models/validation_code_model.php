@@ -14,7 +14,7 @@ class Validation_code_model extends CI_Model
 	private function generate_code()
 	{
 		$bytes = openssl_random_pseudo_bytes (32);
-		return base64_encode($bytes);
+		return bin2hex($bytes);
 	}
 	/**
 	 * Emails the user a randomly-generated
