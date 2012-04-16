@@ -56,7 +56,14 @@ foreach($grid as $row)
 	$boxy += $margin;
 }
 
-// Display the image
-header("Content-type: image/png"); 
-imagepng($im);
+if(empty($filename))
+{
+	// Display the image
+	header("Content-type: image/png"); 
+	imagepng($im);
+}
+else
+{
+	imagepng($im,$filename);
+}
 imagedestroy($im);

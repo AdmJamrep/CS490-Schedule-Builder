@@ -9,9 +9,27 @@
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototype.js'))?>"></script>
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/scriptaculous.js'))?>"></script>
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototip.js'))?>"></script>
+<script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototype.js'))?>"></script>
 <script type="text/javascript">
 var last_action = null;
 var last_action_params = null;
+window.fbAsyncInit = function() {
+FB.init({
+  appId      : '121479874650613', // App ID
+  channelUrl : '<?PHP echo site_url('schedule/channel')?>', // Channel File
+  status     : true, // check login status
+  cookie     : true, // enable cookies to allow the server to access the session
+  xfbml      : true  // parse XFBML
+});
+};
+// Load the SDK Asynchronously
+(function(d){
+ var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+ if (d.getElementById(id)) {return;}
+ js = d.createElement('script'); js.id = id; js.async = true;
+ js.src = "//connect.facebook.net/en_US/all.js";
+ ref.parentNode.insertBefore(js, ref);
+}(document));
 function submit_form()
 {
 	if($('bSearch').visible())
@@ -101,11 +119,11 @@ function show_undo()
 	{
 		if(last_action_params.indexOf('conflicting_call') > -1)
 		{
-			$('undo_box').innerHTML = 'Class added. ';
+			$('undo_box').innerHTML = 'Class added (conflicting class or classes removed). ';
 		}
 		else
 		{
-			$('undo_box').innerHTML = 'Class added (conflicting class or classes removed). ';
+			$('undo_box').innerHTML = 'Class added. ';
 		}
 	}
 	else if(last_action == 'remove')
@@ -156,10 +174,24 @@ function confirm_edit()
 	alert('A message has been sent to the email this schedule was saved with. Please click the link in that email to begin editing');
 }
 <?PHP endif;?>
+function share_on_facebook()
+{
+	 FB.login(function(response) {
+		if (response.status === 'connected') 
+		{
+			var token = response.authResponse.accessToken;
+			url = '<?PHP echo site_url('schedule/share_on_facebook/')?>';
+			new Ajax.Request(url,{postBody:'token='+token,onSuccess:function(){alert('Schedule shared on your timeline.');},onFailure:display_error});
+		}
+	 }, {scope: 'publish_stream'});
+}
 </script>
 </head>
 
 <body>
+<div id="fb-root">
+<!-- The JS SDK requires the fb-root element in order to load properly. -->
+</div>
 <!--
 <div id = "header"><img height = "125" src = "<?PHP echo str_replace('index.php/','',site_url('images/njitlogo.jpg'))?>">Schedule Builder 2.0</div> -->
 

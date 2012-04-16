@@ -26,6 +26,7 @@
 		</div>
 	<?PHP else:?>
 		Permalink: <input type="text" size = "15" value="<?PHP echo site_url('schedule/view/'.$schedule->schedule_id)?>"/><br />
+		<a href="javascript:share_on_facebook()">Share on Facebook</a><br />
 	<?PHP endif;?>
 	<a href="<?PHP if($schedule->can_edit):?>javascript:new_schedule()<?PHP else:?><?PHP echo site_url('search')?><?PHP endif;?>">Start New Schedule</a>
 <?PHP else:?>
