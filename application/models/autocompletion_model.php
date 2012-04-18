@@ -9,12 +9,14 @@ class Autocompletion_model extends CI_Model
 	{
 		return $this->db->like('instructor',$professor_name)->
 				group_by('instructor')->
+				limit(10)->
 				get('class_sections');
 	}
 	public function get_subjects($subject)
 	{
 		return $this->db->like('name',$subject)->
-			or_like('abbreviation',$subject)->
-			get('subjects');
+				or_like('abbreviation',$subject)->
+				limit(10)->
+				get('subjects');
 	}
 }
