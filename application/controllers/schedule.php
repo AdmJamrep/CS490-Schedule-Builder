@@ -89,11 +89,7 @@ class Schedule extends CI_Controller
 	}
 	public function channel()
 	{
-		$cache_expire = 60*60*24*365;
-		header("Pragma: public");
-		header("Cache-Control: max-age=".$cache_expire);
-		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$cache_expire) . ' GMT');
-		echo '<script src="//connect.facebook.net/en_US/all.js"></script>';
+		$this->load->view('facebook_channel_file');
 	}
 	public function share_on_facebook()
 	{
@@ -135,7 +131,7 @@ class Schedule extends CI_Controller
 						$user_profile = $this->facebook->api('/me/photos','POST',$fb_data);
 					} catch (FacebookApiException $e) {
 						$data = null;
-						$data->message = /*'Error: Unable to share your schedule.'*/$e;
+						$data->message = 'Error: Unable to share your schedule.';
 						$this->load->view('ajax_error',$data);
 					}
 					unlink($data->filename);
