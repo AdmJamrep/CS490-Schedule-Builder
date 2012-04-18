@@ -9,7 +9,6 @@
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototype.js'))?>"></script>
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/scriptaculous.js'))?>"></script>
 <script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototip.js'))?>"></script>
-<script type="text/javascript" src="<?PHP echo str_replace('index.php/','',site_url('javascripts/prototype.js'))?>"></script>
 <script type="text/javascript">
 var last_action = null;
 var last_action_params = null;
@@ -210,10 +209,10 @@ Schedule Builder 2.0
 <tr>
 <td>
 <b>Keyword:</b> <input type = "text" id = "keyword" class = "rounded_corners" name = "keyword" /><br />
-<script type = "text/javascript">new Tip(keyword, 'Ex: Roadmap to Computing, Theodore Nicholson, CS114');</script>
+<script type = "text/javascript">new Tip($('keyword'), 'Ex: Roadmap to Computing, Theodore Nicholson, CS114');</script>
 <br />
 <b>Exclude:</b> &nbsp&nbsp<input type = "text" id = "exclude" class = "rounded_corners" name = "exclude" /><br />
-<script type = "text/javascript">new Tip(exclude, 'Enter keyword to be excluded from search');</script>
+<script type = "text/javascript">new Tip('exclude', 'Enter keyword to be excluded from search');</script>
 </td>
 <td>
 <b>Day Restriction</b>
@@ -239,9 +238,9 @@ Schedule Builder 2.0
 <input type = "radio" id = "a" name = "course_level" value = "1" />Lower<br />
 <input type = "radio" id = "b" name = "course_level" value = "2" />Upper<br />
 <input type = "radio" id = "c" name = "course_level" value = "3" />Graduate<br />
-<script type = "text/javascript">new Tip(a, '100/200 level courses');
-new Tip(b, '300/400 level courses');
-new Tip(c, 'Graduate level courses');</script>
+<script type = "text/javascript">new Tip('a', '100/200 level courses');
+new Tip('b', '300/400 level courses');
+new Tip('c', 'Graduate level courses');</script>
 </td>
 <td style = "text-align: center">
 <input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
@@ -269,7 +268,7 @@ new Tip(c, 'Graduate level courses');</script>
 <div id = "prof_auto" class="autocomplete"></div>
 <script type="text/javascript">
 new Ajax.Autocompleter('prof','prof_auto','<?PHP echo site_url('search/professor_autocomplete')?>');
-new Tip(prof, 'Ex: Theodore Nicholson, Levy, John');
+new Tip('prof', 'Ex: Theodore Nicholson, Levy, John');
 </script>
 <br />
 <b>Subject:</b> &nbsp&nbsp&nbsp&nbsp&nbsp<input type = "text" id = "subj" class = "rounded_corners" name = "subj" /><br />
@@ -277,7 +276,7 @@ new Tip(prof, 'Ex: Theodore Nicholson, Levy, John');
 <ul id = "subj_list"></ul>
 <script type="text/javascript">
 new Ajax.Autocompleter('subj','subj_auto','<?PHP echo site_url('search/subject_autocomplete')?>', {updateElement:add_subject});
-new Tip(subj, 'Ex: Computer Science, Math');
+new Tip('subj', 'Ex: Computer Science, Math');
 </script>
 </td>
 
@@ -312,12 +311,12 @@ to: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name = "end_time">
 <b>Course Level</b>
 <br />
 <input type = "radio" name = "course_level" value = "default" checked />I don't care<br />
-<input type = "radio" id = "a" name = "course_level" value = "1" />Lower<br />
-<input type = "radio" id = "b" name = "course_level" value = "2" />Upper<br />
-<input type = "radio" id = "c" name = "course_level" value = "3" />Graduate<br />
-<script type = "text/javascript">new Tip(a, '100/200 level courses');
-new Tip(b, '300/400 level courses');
-new Tip(c, 'Graduate level courses');</script>
+<input type = "radio" id = "d" name = "course_level" value = "1" />Lower<br />
+<input type = "radio" id = "e" name = "course_level" value = "2" />Upper<br />
+<input type = "radio" id = "f" name = "course_level" value = "3" />Graduate<br />
+<script type = "text/javascript">new Tip('d', '100/200 level courses');
+new Tip('e', '300/400 level courses');
+new Tip('f', 'Graduate level courses');</script>
 </td>
 
 <td>
