@@ -63,9 +63,17 @@ class Conflict_model extends CI_Model
 				 * the sessions are on different days
 				 * the sessions are on the same day, but both TBA
 				**/
-				if($session1->day != $session2->day || 
-						$session1->start_datetime === FALSE)
+				if($session1->day != $session2->day)
 				{
+					continue;
+				}
+				else if( $session1->start_datetime === FALSE )
+				{
+					if($session1->call_number == $session2->call_number &&
+						$break_on_conflict === FALSE)
+					{
+						unset($first_course_list->classes[$session1->call_number]);
+					}
 					continue;
 				}
 				/**
