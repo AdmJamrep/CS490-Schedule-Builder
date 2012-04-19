@@ -109,6 +109,11 @@ class Course_list_model extends CI_Model
 				$this->in_block($row->end_time,$min_time,$max_time);
 			foreach($row->blocks as $day_offset => $block)
 			{
+				while(isset($course_list->times[$current_class]) &&
+						$course_list->times[$current_class]->day === 'TBA')
+				{
+					$current_class++;
+				}
 				if($block === FALSE)
 				{
 					$row->row_occupied = TRUE;
@@ -146,7 +151,6 @@ class Course_list_model extends CI_Model
 				}
 			}
 		}
-		
 		return $grid;
 	}
 	private function in_block($test_time,$start_time,$end_time)
