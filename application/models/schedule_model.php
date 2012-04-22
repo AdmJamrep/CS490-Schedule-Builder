@@ -36,7 +36,9 @@ class Schedule_model extends CI_Model
 			join('time_and_location t1',
 					't1.call_number = c.call_number')->
 			join('courses co','co.abbreviation = c.abbreviation '.
-					'AND co.course_number = c.course_number')->
+					'AND co.course_number = c.course_number '.
+					'AND co.year_offered = c.year_offered '.
+					'AND co.semester = c.semester ')->
 			where('ss.num_identifier',$schedule_id)->
 			select('*,ss.name schedule_name')->
 			get();

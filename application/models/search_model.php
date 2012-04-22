@@ -248,6 +248,8 @@ class Search_model extends CI_Model
 				JOIN courses co
 					ON co.abbreviation = c.abbreviation
 					AND co.course_number = c.course_number 
+					AND co.year_offered = c.year_offered
+					AND co.semester = c.semester
 				JOIN subjects s
 					ON s.abbreviation = c.abbreviation';
 		
@@ -310,8 +312,8 @@ class Search_model extends CI_Model
 			
 		}
 		$query_string .= '
-		WHERE semester = ?
-			AND year_offered = ? ';
+		WHERE c.semester = ?
+			AND c.year_offered = ? ';
 		$query_params[] = $this->semester;
 		$query_params[] = $this->year;
 		if(!empty($this->days) || !empty($this->start_time))
