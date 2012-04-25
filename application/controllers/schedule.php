@@ -122,6 +122,8 @@ class Schedule extends CI_Controller
 					$this->load->view('schedule_grid_image',$data);
 					ob_end_clean();
 					
+					
+					
 					$fb_data = array(
 						'source' => '@'.$data->filename
 					);
@@ -130,9 +132,10 @@ class Schedule extends CI_Controller
 						// Proceed knowing you have a logged in user who's authenticated.
 						$user_profile = $this->facebook->api('/me/photos','POST',$fb_data);
 					} catch (FacebookApiException $e) {
-						$data = null;
 						$data->message = 'Error: Unable to share your schedule.';
 						$this->load->view('ajax_error',$data);
+						@unlink($data->filename);
+						return;
 					}
 					unlink($data->filename);
 					
