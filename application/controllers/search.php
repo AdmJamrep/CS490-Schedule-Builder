@@ -71,9 +71,7 @@ class Search extends CI_Controller
 		
 		$this->common_search_filters();
 		
-		$result = $this->search_model->set_semester('fall')->
-			set_year('2012')->
-			search();
+		$result = $this->search_model->search();
 		$schedule = $this->schedule_model->get_schedule();
 		
 		$this->conflict_model->compare_for_conflicts($result,$schedule);
@@ -142,9 +140,7 @@ class Search extends CI_Controller
 		
 		$this->common_search_filters();
 		
-		$result = $this->search_model->set_semester('fall')->
-			set_year('2012')->
-			search();
+		$result = $this->search_model->search();
 		$schedule = $this->schedule_model->get_schedule();
 		
 		$this->conflict_model->compare_for_conflicts($result,$schedule);
@@ -193,6 +189,19 @@ class Search extends CI_Controller
 		{
 			$this->search_model->hide_closed();
 		}
+		$semester = $this->input->post('semester');
+		$year = $this->input->post('year');
+		if(!empty($semester) && !empty($year))
+		{
+			$this->search_model->set_semester($semester)->
+				set_year($year);
+		}
+		else
+		{
+			$this->search_model->set_semester('fall')->
+				set_year(2012);
+		}
+		
 	}
 	public function professor_autocomplete()
 	{
