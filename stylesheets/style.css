@@ -1,38 +1,57 @@
+
+/* Schedule Grid */
 table.grid
 {
 	border-spacing: 0px;
 	border-color: blue;
-	border-collapse: collapse;
-	-moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
+	padding: 10px;
+	margin: 6px 0px;
+	-moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+	-ms-border-radius: 15px;
+	/*background: #C0C0C0 */
+	background: #E0E0E0; 
+	box-shadow: 5px 5px 5px #888888;	
 
 }
 table.grid td
 {
+	border-style:solid;
+	border-color: #AAA; 
+	border-width: 1px;
 	padding: 5px;
-	border-style: outset;
-	border-color: blue;
+	vertical-align: top;
 }
 table.grid th
 {
 	padding: 5px;
-	border-style: outset;
-	border-color: blue;
+	border-style: none;
 
 }
 
-#bSearch,#aSearch
+table.list
+{
+	padding: 4px;
+	
+
+
+}
+
+/* Search Engine and Semester Selection Panels */
+#bSearch,#aSearch,#sem_select
 {
 	height: auto;
 	width: auto;
 	background: #6699CC;
 	box-shadow: 5px 5px 5px #888888;
-	margin: 10px 15px;
+	margin-top: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
 	padding: 10px;
 	-moz-border-radius: 15px;
 }
-
+/* Rounded corners effect */
 .rounded_corners
 {
 	height:auto;
@@ -44,8 +63,7 @@ table.grid th
 	-webkit-border-radius:25px; /* Safari and Chrome */
 }
 
-
-
+/* Left Panel */
 #side_panel
 {
 	height: auto;
@@ -60,6 +78,8 @@ table.grid th
 	margin: 10px 15px;
 	
 }
+
+/* Header */
 #header
 {
 	background: url('header.gif');
@@ -67,7 +87,8 @@ table.grid th
 	text-align: center;
 	vertical-align: middle;
 	width: 100%;
-	height: 100px;
+	height: 50px;
+	margin-bottom: 5px;
 	background-color: #000066;
 	color: #FFFFFF;
 	font-family: "Arial";
@@ -131,7 +152,7 @@ div.top_banner
 	font-size:32pt;
 	color:white;
 }
-/*based off http://madrobby.github.com/scriptaculous/ajax-autocompleter/ */
+/* Based off http://madrobby.github.com/scriptaculous/ajax-autocompleter/ */
 div.autocomplete {
   position:absolute;
   width:250px;
@@ -155,6 +176,7 @@ div.autocomplete ul li {
   cursor:pointer;
 }
 
+/* Alternating rows */
 .row0
 {
 	background-color:#6699CC;
@@ -165,6 +187,71 @@ div.autocomplete ul li {
 	background-color:#99CCCC;
 }
 
+/* Red */
+.color_code1
+{
+	border-color: #AA4535;
+	background-color: #F7422B;
+	-moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+	-ms-border-radius: 6px;
+	
+}
+/* Orange */
+.color_code2
+{
+	border-color: #CB7403;
+	background-color: #FFAD46;
+	-moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+	-ms-border-radius: 6px;
+
+}
+/* Green */
+.color_code3
+{
+	border-color: #50C7A5;
+	background-color: #B1E9D2;
+	-moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+	-ms-border-radius: 6px;
+
+}
+/* Light Blue */
+.color_code4
+{
+	border-color: #1587BD;
+	background-color: #9FC6E7;
+	-moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+	-ms-border-radius: 6px;
+
+}
+/* Dark Blue */
+.color_code5
+{
+	border-color: #4D87DC;
+	background-color: #7BA7ED;
+	-moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+	-ms-border-radius: 6px;
+
+}
+/* Purple */
+.color_code6
+{
+	border-color: #6733DD;
+	background-color: #B99AFF;
+	-moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+	-ms-border-radius: 6px;
+}
 
 
 

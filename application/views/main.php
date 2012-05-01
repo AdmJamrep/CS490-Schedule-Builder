@@ -111,6 +111,7 @@ function new_schedule()
 {
 	url = '<?PHP echo site_url('schedule/new_schedule')?>';
 	new Ajax.Request(url,{onSuccess:submit_form});
+
 }
 function show_undo()
 {
@@ -184,6 +185,28 @@ function share_on_facebook()
 		}
 	 }, {scope: 'publish_stream'});
 }
+function submit_semester(sem, year)
+{
+	$('basic_year').value = year;
+	$('basic_semester').value = sem;
+	
+	$('advanced_year').value = year;
+	$('advanced_semester').value = sem;
+
+	$('sem_select').toggle();
+	$('search').toggle();
+}
+function toggle_sem_select()
+{
+	$('search').toggle();
+	$('sem_select').toggle();
+	new_schedule();
+	$('full_search_results').style.visibility = "hidden";
+}
+function show_search_results()
+{
+	$('full_search_results').style.visibility = "visible";
+}
 </script>
 </head>
 
@@ -196,15 +219,51 @@ function share_on_facebook()
 
 <div id = "header">
 <img style = "float:left" src = "<?PHP echo str_replace('index.php/','',site_url('images/njit_logo.gif'))?>">
-Schedule Builder 2.0
-
+Schedule Builder
 </div>
-<br />
+
+<div id = "sem_select" style = "display: block; float:left; float:bottom;"">
+<form method = "post" id = "semester">
+<b>Select a semester:</b> <br />
+<?PHP
+	$date = getdate(date("U"));
+	$year = $date['year'];
+	//Spring
+	if ($date['mon'] >= 1 && $date['mon'] <= 5)
+	{
+		echo '<input type = "radio" name = "semester" onclick = "submit_semester(\'spring\', \''.$year.'\')" id = "spring" value = "S" />SPRING '.$year.'<br />
+				<input type = "radio" name = "semester" onclick = "submit_semester(\'summer\', \''.$year.'\')" id = "spring" value = "SM" />SUMMER '.$year.'<br />';
+		echo '<input type = "radio" name = "semester" onclick = "submit_semester(\'fall\', \''.$year.'\')" id = "spring" value = "F" />FALL '.$year.'<br />';
+	}
+	//Summer
+	else if ($date['mon'] >= 6 && $date['mon'] <= 9)
+	{
+		echo '<input type = "radio" name = "semester" onclick = "submit_semester(\'summer\', \''.$year.'\')" id = "SUMMER" value = "SM" />SUMMER '.$year.'<br />
+				<input type = "radio" name = "semester" onclick = "submit_semester(\'fall\', \''.$year.'\')" id = "FALL" value = "F" />FALL '.$year.'<br />';
+		$year++;
+		echo '<input type = "radio" name = "semester" onclick = "submit_semester(\'spring\', \''.$year.'\')" id = "SPRING" value = "S" />SPRING '.$year.'<br />';
+	}
+	//Fall
+	else
+	{
+		echo '<input type = "radio" name = "semester" onclick = "submit_semester(\'fall\', \''.$year.'\')" id = "FALL" value = "F" />FALL '.$year.'<br />';
+		$year++;
+		echo '<input type = "radio" name = "semester" onclick = "submit_semester(\'spring\', \''.$year.'\')" id = "SPRING" value = "S" />SPRING '.$year.'<br />
+			<input type = "radio" name = "semester" onclick = "submit_semester(\'summer\', \''.$year.'\')" id = "SUMMER" value = "SM" />SUMMER '.$year.'<br />';
+	}
+?>
+</form>
+</div>
+
+
+<div id = "search" style = "display: none">
 <?PHP if(!isset($load_schedule) || $result->schedule->can_edit):?>
 <!-- Basic Search Form -->
 <div id = "bSearch" style = "display:block">
 <form method = "post" action = "javascript:submit_form()" id = "basic_search">
-<b>Basic Search</b>
+<b>Basic Search</b>&nbsp;&nbsp;&nbsp;<a href="javascript:toggle_sem_select();">Back to Semester Selection</a>
+<input type = "hidden" id = "basic_year" name = "year" value = "" />
+<input type = "hidden" id = "basic_semester" name = "semester" value = "" />
 <table style = "border-spacing: 25px 0px">
 <tr>
 <td>
@@ -246,7 +305,7 @@ new Tip('c', 'Graduate level courses');</script>
 <input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
 <br />
 <br />
-<input type = "submit" value = "Search" />
+<input type = "submit" onclick = "javascript:show_search_results();" value = "Search" />
 <br />
 <a href="javascript:toggle_search();">Advanced Search</a>
 </td>
@@ -259,7 +318,9 @@ new Tip('c', 'Graduate level courses');</script>
 <!-- Advanced Search Form -->
 <div id="aSearch" style="display:none">
 <form method = "post" action = "javascript:submit_form()" id = "search_form">
-<b>Advanced Search</b>
+<input type = "hidden" id = "advanced_year" name = "year" value = "" />
+<input type = "hidden" id = "advanced_semester" name = "semester" value = "" />
+<b>Advanced Search</b>&nbsp;&nbsp;&nbsp;<a href="javascript:toggle_sem_select();">Back to Semester Selection</a>
 <table style = "border-spacing: 25px 5px">
 <tr>
 
@@ -352,7 +413,7 @@ new Tip('f', 'Graduate level courses');</script>
 <input type = "checkbox" name = "show_open_sections" value = "default" checked />Only show open sections
 <br />
 <br />
-<input type = "submit" value = "Search" />
+<input type = "submit" onclick = "javascript:show_search_results();" value = "Search" />
 <br />
 <a href="javascript:toggle_search();">Return to Basic Search</a>
 </td>
@@ -362,6 +423,7 @@ new Tip('f', 'Graduate level courses');</script>
 </div>
 <div style = "background-color:#00FF66; color:#000000; font-weight:bold; text-align:center;" id="undo_box"></div>
 <!-- End Advanced Search Form -->
+</div>
 <?PHP else:?>
 <div style="background-color:#fcc">Viewing a saved schedule in read-only mode. If you are the owner, click <a href="javascript:start_edit()">here</a> to edit.</div><br />
 <?PHP endif;?>
